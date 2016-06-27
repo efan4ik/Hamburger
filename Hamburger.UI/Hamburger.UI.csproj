@@ -102,11 +102,12 @@
     <Compile Include="Models\GraphicHelpers\SceneDrawHelper.cs" />
     <Compile Include="Models\GraphicHelpers\SceneEditHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\ColorPicker.xaml.cs">
-      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    <Compile Include="ViewModels\PaintToolBoxViewModel.cs" />
+    <Compile Include="Views\ColorPickerView.xaml.cs">
+      <DependentUpon>ColorPickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PaintToolBox.xaml.cs">
-      <DependentUpon>PaintToolBox.xaml</DependentUpon>
+    <Compile Include="Views\PaintToolBoxView.xaml.cs">
+      <DependentUpon>PaintToolBoxView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -134,23 +135,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ColorPicker.xaml">
+    <Page Include="Views\ColorPickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PaintToolBox.xaml">
+    <Page Include="Views\PaintToolBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="InkToolbarControl, Version=0.3.2">
-      <Name>InkToolbar Control</Name>
-    </SDKReference>
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

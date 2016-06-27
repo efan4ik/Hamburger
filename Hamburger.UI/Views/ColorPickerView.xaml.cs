@@ -22,7 +22,7 @@ namespace Hamburger.UI.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ColorPicker : UserControl
+    public sealed partial class ColorPickerView : UserControl
     {
         public Colors SelectedColor { get; set; }
 
@@ -30,10 +30,43 @@ namespace Hamburger.UI.Views
 
         public event ColorChangedEventHandler ColorChanged;
 
-        public ColorPicker()
+        public static readonly DependencyProperty VisibilityChangedProperty = DependencyProperty.Register(
+                                                                                                "VisibilityChanged",
+                                                                                                typeof(string),
+                                                                                                typeof(ColorPickerView),
+                                                                                                new PropertyMetadata("VisibilityChanged event handler"));
+
+        public event VisibilityChangedEventHandler VisibilityChanged;
+
+        public delegate void VisibilityChangedEventHandler(object sender, Visibility e);
+
+        public new Visibility Visibility
+        {
+            get { return base.Visibility; }
+            set
+            {
+                if (base.Visibility == value) return;
+                base.Visibility = value;
+                VisibilityChanged(this, value);
+            }
+        }
+
+        public ColorPickerView()
         {
             this.InitializeComponent();
             loadcolors();
+            LostFocus += lostFocus;
+            VisibilityChanged += ColorPicker_VisibilityChanged;
+        }
+
+        private void ColorPicker_VisibilityChanged(object sender, Visibility e)
+        {
+            if (e == Visibility.Visible) this.Focus(FocusState.Programmatic);
+        }
+
+        private void lostFocus(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Collapsed;
         }
 
         public void loadcolors()
@@ -53,6 +86,7 @@ namespace Hamburger.UI.Views
             if(ColorChanged != null)
             {
                 ColorChanged(this, (SolidColorBrush)(((ColorInfo)e.AddedItems[0]).ColorBrush));
+                this.Visibility = Visibility.Collapsed;
             }
         }
     }
