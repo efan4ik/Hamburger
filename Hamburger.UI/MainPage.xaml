@@ -68,7 +68,7 @@
 
         <SplitView Name="LeftPanel" 
         IsPaneOpen="False" 
-        DisplayMode="Overlay" 
+        DisplayMode="Overlay"
         OpenPaneLength="200" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel FlowDirection="RightToLeft">
@@ -81,7 +81,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="8,20,8,3">
-                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר </TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר</TextBlock>
                         <StackPanel Orientation="Horizontal">
                             <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
                             <TextBlock  FontSize="20" >הגדרה 1</TextBlock>
@@ -104,37 +104,55 @@
 
 
                 </StackPanel>
-                <!--<ListView SelectionChanged="ListView_SelectionChanged">
-                    <ListViewItem Name="MapListItem" Margin="0 4 0 4">
-                        <RelativePanel>
-                            <TextBlock Name="MapIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;"/>
-                            <TextBlock FontSize="20" Text="מפה" Margin="20 0 0 0" RelativePanel.RightOf="MapIcon"/>
-                        </RelativePanel>
-                    </ListViewItem>
-                    <ListViewItem Name="TextListItem" Margin="0 4 0 4">
-                        <RelativePanel>
-                            <TextBlock Name="TextIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE1C8;"/>
-                            <TextBlock FontSize="20" Text="טקסט" Margin="20 0 0 0" RelativePanel.RightOf="TextIcon"/>
-                        </RelativePanel>
-                    </ListViewItem>
-                    <ListViewItem Name="ImageListItem" Margin="0 4 0 4">
-                        <RelativePanel>
-                            <TextBlock Name="ImageIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE722;"/>
-                            <TextBlock FontSize="20" Text="תמונה" Margin="20 0 0 0" RelativePanel.RightOf="ImageIcon"/>
-                        </RelativePanel>
-                    </ListViewItem>
-                </ListView>-->
             </SplitView.Pane>
             <SplitView.Content>
                 <SplitView
-                     Name="RightPanel" 
-            CompactPaneLength="52" 
-            IsPaneOpen="False" 
-            DisplayMode="CompactOverlay" 
-            OpenPaneLength="200" Grid.Row="1"
-                    PanePlacement="Right">
+                 Name="RightPanel" 
+                 IsHoldingEnabled="True"
+                 IsPaneOpen="False" 
+                 DisplayMode="Overlay" 
+                 OpenPaneLength="200" Grid.Row="1"
+                 PanePlacement="Right">
                     <SplitView.Pane>
-                        <ListView>
+                        <StackPanel FlowDirection="RightToLeft" >
+                            <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים</TextBlock>
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,20,0,0" Height="300">
+                                <StackPanel>
+                                    <ListBox ItemsSource="{Binding Restraunts}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets"
+                                                 FontSize="26" Content="&#xECCD;"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים אחרים</TextBlock>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,20,0,0" Height="300">
+                                <StackPanel>
+
+                                    <ListBox ItemsSource="{Binding Bars}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Width="120" Height="40" FontSize="20"  Content="{Binding Name}"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets"
+                                                 FontSize="26" Content="&#xECCD;"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </StackPanel>
+                        <!--<ListView>
                             <ListViewItem Name="FirstListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
                                 <RelativePanel>
                                     <TextBlock Name="FirstIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;" RelativePanel.AlignRightWithPanel="True"/>
@@ -153,7 +171,7 @@
                                     <TextBlock FontSize="20" Text="תמונה" Margin="0 0 20 0" RelativePanel.LeftOf="ThirdIcon"/>
                                 </RelativePanel>
                             </ListViewItem>
-                        </ListView>
+                        </ListView>-->
                     </SplitView.Pane>
                     <SplitView.Content>
                         <RelativePanel Name="FramesContainer">
