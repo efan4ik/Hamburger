@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="PartySelectionPanel.View.PartyPanelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PartySelectionPanel"
+    xmlns:model="using:PartySelectionPanel.Model"
+    xmlns:viewModel="using:PartySelectionPanel.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView SelectionMode="None" ItemsSource="{x:Bind Vm.partyModels}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:PartyModel">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Tag="{x:Bind Path=name}" FontFamily="Segoe MDL2 Assets" Content="&#xE71E;" Click="ShowPartyOnMap"/>
+                        <Button Content="{x:Bind Path=name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
