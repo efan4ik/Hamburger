@@ -68,7 +68,7 @@
 
         <SplitView Name="LeftPanel" 
         IsPaneOpen="False" 
-        DisplayMode="Overlay"
+        DisplayMode="Inline"
         OpenPaneLength="200" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel FlowDirection="RightToLeft">
@@ -110,7 +110,7 @@
                  Name="RightPanel" 
                  IsHoldingEnabled="True"
                  IsPaneOpen="False" 
-                 DisplayMode="Overlay" 
+                 DisplayMode="Inline" 
                  OpenPaneLength="200" Grid.Row="1"
                  PanePlacement="Right">
                     <SplitView.Pane>
