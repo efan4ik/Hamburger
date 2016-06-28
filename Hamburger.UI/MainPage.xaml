@@ -76,37 +76,37 @@
                     <StackPanel  Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8">משהו</TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
-                            <ToggleSwitch></ToggleSwitch>
-                            
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
-                            <ToggleSwitch></ToggleSwitch>
+                            <Button  FontSize="20" Margin="8,8,8,8">הגדרה 1</Button>
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 3</TextBlock>
-                            <ToggleSwitch></ToggleSwitch>
+                            <Button  FontSize="20" Margin="8,8,8,8">הגדרה 2</Button>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button  FontSize="20" Margin="8,8,8,8">הגדרה 3</Button>
 
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר </TextBlock>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
+                        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
                             <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 1</TextBlock>
+                            
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
                             <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 2</TextBlock>
+                            
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 3</TextBlock>
                             <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 3</TextBlock>
+                            
 
                         </StackPanel>
 
