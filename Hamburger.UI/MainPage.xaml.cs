@@ -61,6 +61,7 @@ namespace Hamburger.UI
             set
             {
                 _frames = value;
+
             }
         }
 
