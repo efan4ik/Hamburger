@@ -26,6 +26,6 @@
                             ServiceUri="http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer" />
             </esri:Scene>
         </esri:SceneView>
-        <!--<views:PaintToolBox View="{Binding ElementName=RooSceneView}"/>-->
+        <views:PaintToolBox View="{Binding ElementName=RooSceneView}"/>
     </Grid>
 </UserControl>
