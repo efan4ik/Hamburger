@@ -45,8 +45,6 @@ namespace Hamburger.UI
         }
 
 
-        }
-
         private void initializeDummyRestraunts()
         {
             Restraunts = new List<RestrauntModel>() { new RestrauntModel { Name = "Mex&Co" }, new RestrauntModel { Name = "Segev" }, new RestrauntModel { Name = "Gordos" },
@@ -59,7 +57,6 @@ namespace Hamburger.UI
                                         , new BarModel { Name = "Idea" }, new BarModel { Name = "Pow Wow" }, new BarModel { Name = "Leo Blooms" } };
         }
               
-        }
 
         #region properties
         //private Map _map;
@@ -127,3 +124,4 @@ namespace Hamburger.UI
         }
     }
 }
+
