@@ -101,14 +101,10 @@
                     <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">הגדרות</TextBlock>
                     <StackPanel  Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8">משהו</TextBlock>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
-                            <ToggleSwitch></ToggleSwitch>
-
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
-                            <ToggleSwitch></ToggleSwitch>
+                        <ToggleButton  FontSize="20" Margin="8,8,8,8" >הגדרה 1</ToggleButton>
+                        <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 2</ToggleButton>
+                        <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 3</ToggleButton>
+                    </StackPanel>
 
                     <StackPanel Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר</TextBlock>
@@ -210,9 +206,5 @@
                 </SplitView>
             </SplitView.Content>
         </SplitView>
-
     </Grid>
-
-
-
 </Page>
