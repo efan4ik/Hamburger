@@ -26,15 +26,86 @@ namespace Hamburger.UI
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            var frames = FramesContainer.Children.Where(c => c is Frame).Cast<Frame>();
+            foreach (var frame in frames)
+            {
+                _frames.Add(frame.Name, frame);
+            }
         }
 
-        private void OnRootSceneViewLayerLoaded(object sender, LayerLoadedEventArgs e)
-        {
-            if (e.LoadError == null)
-                return;
+        #region properties
+        //private Map _map;
 
-            Debug.WriteLine($"Error while loading layer : {0} - {1}", e.Layer.ID, e.LoadError.Message);
+        ///// <summary>
+        ///// Gets the Map rendered in the MapView
+        ///// </summary>
+        //public Map Map
+        //{
+        //    get
+        //    {
+        //        if (_map == null)
+        //        {
+        //            _map = new Map(Basemap.CreateTopographic());
+        //        }
+        //        return _map;
+        //    }
+        //}
+
+        #endregion
+
+        private Dictionary<string, Frame> _frames = new Dictionary<string, Frame>();
+        public Dictionary<string, Frame> Frames
+        {
+            get { return _frames; }
+            set
+            {
+                _frames = value;
+            }
+        }
+
+
+        private string _currentFrame;
+        public string CurrentFrame
+        {
+            get { return _currentFrame; }
+            set
+            {
+                if (_currentFrame == null)
+                    _currentFrame = "MapFrame";
+
+                if (!Frames.ContainsKey(value))
+                    return;
+
+                Frames[_currentFrame].Visibility = Visibility.Collapsed;
+                _currentFrame = value;
+                Frames[_currentFrame].Visibility = Visibility.Visible;
+            }
+        }
+
+        private void ButtonClick(object sender, RoutedEventArgs e)
+        {
+            CurrentFrame = (e.OriginalSource as Button).CommandParameter.ToString();
+        }
+
+        private void LeftHamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            LeftPanel.IsPaneOpen = !LeftPanel.IsPaneOpen;
+        }
+
+        private void RightHamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            RightPanel.IsPaneOpen = !RightPanel.IsPaneOpen;
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if (MapListItem.IsSelected)
+            //    CurrentFrame = "MapFrame";
+            //else if (TextListItem.IsSelected)
+            //    CurrentFrame = "TextFrame";
+            //else if (ImageListItem.IsSelected)
+            //    CurrentFrame = "ImageFrame";
         }
     }
 }

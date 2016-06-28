@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
     xmlns:color ="using:ColorPicker"
-    xmlns:inkTools="using:Microsoft.Labs.InkToolbarControl" 
     mc:Ignorable="d">
     <RelativePanel>
         <Button Name="EditButton" Background="White" Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="EditButton_Click"/>

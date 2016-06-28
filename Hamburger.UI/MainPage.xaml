@@ -13,21 +13,138 @@
     xmlns:views="using:Hamburger.UI.Views"
     
     mc:Ignorable="d">
+    <Page.Resources>
+        <!--<converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>-->
+        <Style TargetType="Button" x:Key="TopPanelButtonStyle">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+        <Style TargetType="Frame" x:Key="FrameFitToParent">
+            <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
+            <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
+            <Setter Property="RelativePanel.AlignBottomWithPanel" Value="True"/>
+            <Setter Property="RelativePanel.AlignTopWithPanel" Value="True"/>
+        </Style>
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <esri:SceneView x:Name="RooSceneView"
-					  LayerLoaded="OnRootSceneViewLayerLoaded">
-            <esri:Scene>
-                <esri:Scene.Surface>
-                    <esri:ElevationSourceCollection>
-                        <esri:ServiceElevationSource ServiceUri="http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"/>
-                    </esri:ElevationSourceCollection>
-                </esri:Scene.Surface>
-                <layers:ArcGISTiledMapServiceLayer ID="AGOLayer"
-                            ServiceUri="http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer" />
-            </esri:Scene>
-        </esri:SceneView>
-        <views:PaintToolBox View="{Binding ElementName=RooSceneView}"/>
+        <RelativePanel>
+            <Button Name="LeftHamburgerButton" 
+                    RelativePanel.AlignLeftWithPanel="True"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="32"
+                    Content="&#xE700;"
+                    Click="LeftHamburgerButton_Click"/>
+            <Button Name="MapButton"
+                    Content="מפה"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="MapFrame"
+                    RelativePanel.RightOf="TextButton"/>
+            <Button Name="TextButton"
+                    Content="טקסט"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="TextFrame"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            <Button Name="ImageButton"
+                    Content="תמונה"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="ImageFrame"
+                    RelativePanel.LeftOf="TextButton"/>
+            <Button Name="RightHamburgerButton" 
+                    RelativePanel.AlignRightWithPanel="True"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="32"
+                    Content="&#xE700;"
+                    Click="RightHamburgerButton_Click"/>
+        </RelativePanel>
+
+        <SplitView Name="LeftPanel" 
+        CompactPaneLength="52" 
+        IsPaneOpen="False" 
+        DisplayMode="CompactOverlay" 
+        OpenPaneLength="200" Grid.Row="1">
+            <SplitView.Pane>
+                <ListView SelectionChanged="ListView_SelectionChanged">
+                    <ListViewItem Name="MapListItem" Margin="0 4 0 4">
+                        <RelativePanel>
+                            <TextBlock Name="MapIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;"/>
+                            <TextBlock FontSize="20" Text="מפה" Margin="20 0 0 0" RelativePanel.RightOf="MapIcon"/>
+                        </RelativePanel>
+                    </ListViewItem>
+                    <ListViewItem Name="TextListItem" Margin="0 4 0 4">
+                        <RelativePanel>
+                            <TextBlock Name="TextIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE1C8;"/>
+                            <TextBlock FontSize="20" Text="טקסט" Margin="20 0 0 0" RelativePanel.RightOf="TextIcon"/>
+                        </RelativePanel>
+                    </ListViewItem>
+                    <ListViewItem Name="ImageListItem" Margin="0 4 0 4">
+                        <RelativePanel>
+                            <TextBlock Name="ImageIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE722;"/>
+                            <TextBlock FontSize="20" Text="תמונה" Margin="20 0 0 0" RelativePanel.RightOf="ImageIcon"/>
+                        </RelativePanel>
+                    </ListViewItem>
+                </ListView>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <SplitView
+                     Name="RightPanel" 
+            CompactPaneLength="52" 
+            IsPaneOpen="False" 
+            DisplayMode="CompactOverlay" 
+            OpenPaneLength="200" Grid.Row="1"
+                    PanePlacement="Right">
+                    <SplitView.Pane>
+                        <ListView>
+                            <ListViewItem Name="FirstListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
+                                <RelativePanel>
+                                    <TextBlock Name="FirstIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;" RelativePanel.AlignRightWithPanel="True"/>
+                                    <TextBlock FontSize="20" Text="מפה" Margin="0 0 20 0" RelativePanel.LeftOf="FirstIcon"/>
+                                </RelativePanel>
+                            </ListViewItem>
+                            <ListViewItem Name="SecondListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
+                                <RelativePanel HorizontalAlignment="Stretch">
+                                    <TextBlock Name="SecondIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE1C8;" RelativePanel.AlignRightWithPanel="True"/>
+                                    <TextBlock FontSize="20" Text="טקסט" Margin="0 0 20 0" RelativePanel.LeftOf="SecondIcon"/>
+                                </RelativePanel>
+                            </ListViewItem>
+                            <ListViewItem Name="ThirdListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
+                                <RelativePanel>
+                                    <TextBlock Name="ThirdIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE722;" RelativePanel.AlignRightWithPanel="True"/>
+                                    <TextBlock FontSize="20" Text="תמונה" Margin="0 0 20 0" RelativePanel.LeftOf="ThirdIcon"/>
+                                </RelativePanel>
+                            </ListViewItem>
+                        </ListView>
+                    </SplitView.Pane>
+                    <SplitView.Content>
+                        <RelativePanel Name="FramesContainer">
+                            <Frame Name="MapFrame" Visibility="Visible" Style="{StaticResource FrameFitToParent}">
+                                <views:MapView/>
+                            </Frame>
+                            <Frame Name="TextFrame" Visibility="Collapsed" Style="{StaticResource FrameFitToParent}">
+                                <TextBox Text="EXAMPLE" FontSize="70"/>
+                            </Frame>
+                            <Frame Name="ImageFrame" Visibility="Collapsed" Style="{StaticResource FrameFitToParent}">
+                                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                                    <Image Source="http://buylaughs.com/wp-content/uploads/2014/01/Funny-Babies-Pictures-2.jpg"/>
+                                </ScrollViewer>
+                            </Frame>
+                        </RelativePanel>
+                    </SplitView.Content>
+
+                </SplitView>
+            </SplitView.Content>
+        </SplitView>
+
     </Grid>
+
+
+
 </Page>
