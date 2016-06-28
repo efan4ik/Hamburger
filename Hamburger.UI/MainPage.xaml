@@ -91,27 +91,21 @@
 
                     <StackPanel Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר </TextBlock>
-                        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
-                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
                             <TextBlock  FontSize="20" >הגדרה 1</TextBlock>
-                            
-
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
                             <TextBlock  FontSize="20" >הגדרה 2</TextBlock>
-                            
-
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
                             <TextBlock  FontSize="20" >הגדרה 3</TextBlock>
-                            
-
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה אחרת</TextBlock>
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה אחרת:</TextBlock>
                             <Slider Margin="8,8,8,8"></Slider>
 
                         </StackPanel>
