@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Esri.ArcGISRuntime.Controls;
 using Hamburger.UI.Views;
-using System.Reflection;
+using Hamburger.UI.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -26,17 +26,37 @@ namespace Hamburger.UI
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public List<RestrauntModel> Restraunts { get; set; }
+        public List<BarModel> Bars { get; set; }
+
         public MainPage()
         {
+            DataContext = this;
+            initializeDummyBars();
+            initializeDummyRestraunts();
             InitializeComponent();
             _views = new Dictionary<string, Page>()
             {
-                {"MapView", new Views.MapView()},
+                 {"MapView", new Views.MapView()},
                 {"TextView", new TextView()},
                 {"ImageView", new ImageView()}
             };
             Navigate("MapView");
         }
+
+
+        private void initializeDummyRestraunts()
+        {
+            Restraunts = new List<RestrauntModel>() { new RestrauntModel { Name = "Mex&Co" }, new RestrauntModel { Name = "Segev" }, new RestrauntModel { Name = "Gordos" },
+                                                     new RestrauntModel {Name = "Humangous" } , new RestrauntModel {Name="Blondie" }, new RestrauntModel {Name="MeatNight" } };
+        }
+
+        private void initializeDummyBars()
+        {
+            Bars = new List<BarModel>() { new BarModel { Name = "Renato" }, new BarModel { Name = "Mitch" }, new BarModel { Name = "MikesPlace" }
+                                        , new BarModel { Name = "Idea" }, new BarModel { Name = "Pow Wow" }, new BarModel { Name = "Leo Blooms" } };
+        }
+              
 
         #region properties
         //private Map _map;
@@ -118,3 +138,4 @@ namespace Hamburger.UI
         }
     }
 }
+

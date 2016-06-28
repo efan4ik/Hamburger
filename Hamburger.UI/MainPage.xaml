@@ -94,7 +94,7 @@
 
         <SplitView Name="LeftPanel" 
         IsPaneOpen="False" 
-        DisplayMode="Overlay" 
+        DisplayMode="Overlay"
         OpenPaneLength="200" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel FlowDirection="RightToLeft">
@@ -110,34 +110,23 @@
                             <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
                             <ToggleSwitch></ToggleSwitch>
 
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 3</TextBlock>
-                            <ToggleSwitch></ToggleSwitch>
-
-                        </StackPanel>
-                    </StackPanel>
-
                     <StackPanel Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר</TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
-                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
-
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 1</TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
-                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
-
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 2</TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 3</TextBlock>
-                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
-
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 3</TextBlock>
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical">
-                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה אחרת</TextBlock>
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה אחרת:</TextBlock>
                             <Slider Margin="8,8,8,8"></Slider>
 
                         </StackPanel>
@@ -145,37 +134,55 @@
 
 
                 </StackPanel>
-                <!--<ListView SelectionChanged="ListView_SelectionChanged">
-                    <ListViewItem Name="MapListItem" Margin="0 4 0 4">
-                        <RelativePanel>
-                            <TextBlock Name="MapIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;"/>
-                            <TextBlock FontSize="20" Text="מפה" Margin="20 0 0 0" RelativePanel.RightOf="MapIcon"/>
-                        </RelativePanel>
-                    </ListViewItem>
-                    <ListViewItem Name="TextListItem" Margin="0 4 0 4">
-                        <RelativePanel>
-                            <TextBlock Name="TextIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE1C8;"/>
-                            <TextBlock FontSize="20" Text="טקסט" Margin="20 0 0 0" RelativePanel.RightOf="TextIcon"/>
-                        </RelativePanel>
-                    </ListViewItem>
-                    <ListViewItem Name="ImageListItem" Margin="0 4 0 4">
-                        <RelativePanel>
-                            <TextBlock Name="ImageIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE722;"/>
-                            <TextBlock FontSize="20" Text="תמונה" Margin="20 0 0 0" RelativePanel.RightOf="ImageIcon"/>
-                        </RelativePanel>
-                    </ListViewItem>
-                </ListView>-->
             </SplitView.Pane>
             <SplitView.Content>
                 <SplitView
-                     Name="RightPanel" 
-            CompactPaneLength="52" 
-            IsPaneOpen="False" 
-            DisplayMode="CompactOverlay" 
-            OpenPaneLength="200" Grid.Row="1"
-                    PanePlacement="Right">
+                 Name="RightPanel" 
+                 IsHoldingEnabled="True"
+                 IsPaneOpen="False" 
+                 DisplayMode="Overlay" 
+                 OpenPaneLength="200" Grid.Row="1"
+                 PanePlacement="Right">
                     <SplitView.Pane>
-                        <ListView>
+                        <StackPanel FlowDirection="RightToLeft" >
+                            <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים</TextBlock>
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,10,0,0" Height="300">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Restraunts}" Margin="8,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                                    <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets"
+                                                 FontSize="26" Content="&#xECCD;"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים אחרים</TextBlock>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,10,0,0" Height="300">
+                                <StackPanel>
+
+                                    <ItemsControl ItemsSource="{Binding Bars}" Margin="8,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate >
+                                                <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                                    <Button Width="120" Height="40" FontSize="20"  Content="{Binding Name}"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets"
+                                                 FontSize="26" Content="&#xECCD;"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </StackPanel>
+                        <!--<ListView>
                             <ListViewItem Name="FirstListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
                                 <RelativePanel>
                                     <TextBlock Name="FirstIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;" RelativePanel.AlignRightWithPanel="True"/>
@@ -194,7 +201,7 @@
                                     <TextBlock FontSize="20" Text="תמונה" Margin="0 0 20 0" RelativePanel.LeftOf="ThirdIcon"/>
                                 </RelativePanel>
                             </ListViewItem>
-                        </ListView>
+                        </ListView>-->
                     </SplitView.Pane>
                     <SplitView.Content>
                         <Frame Name="MainFrame"/>
