@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Esri.ArcGISRuntime.Controls;
+using Hamburger.UI.Views;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -27,11 +28,13 @@ namespace Hamburger.UI
         public MainPage()
         {
             InitializeComponent();
-            var frames = FramesContainer.Children.Where(c => c is Frame).Cast<Frame>();
-            foreach (var frame in frames)
+            _views = new Dictionary<string, Page>()
             {
-                _frames.Add(frame.Name, frame);
-            }
+                {"MapView", new Views.MapView()},
+                {"TextView", new TextView()},
+                {"ImageView", new ImageView()}
+            };
+            Navigate("MapView");
         }
 
         #region properties
@@ -54,39 +57,29 @@ namespace Hamburger.UI
 
         #endregion
 
-        private Dictionary<string, Frame> _frames = new Dictionary<string, Frame>();
-        public Dictionary<string, Frame> Frames
+        private Dictionary<string, Page> _views;
+        public Dictionary<string, Page> Views
         {
-            get { return _frames; }
+            get { return _views; }
             set
             {
-                _frames = value;
+                _views = value;
 
             }
         }
 
-
-        private string _currentFrame;
-        public string CurrentFrame
+        private void Navigate(string viewName)
         {
-            get { return _currentFrame; }
-            set
+            if (Views.ContainsKey(viewName))
             {
-                if (_currentFrame == null)
-                    _currentFrame = "MapFrame";
-
-                if (!Frames.ContainsKey(value))
-                    return;
-
-                Frames[_currentFrame].Visibility = Visibility.Collapsed;
-                _currentFrame = value;
-                Frames[_currentFrame].Visibility = Visibility.Visible;
+                MainFrame.Content = Views[viewName];
             }
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            CurrentFrame = (e.OriginalSource as Button).CommandParameter.ToString();
+            var viewName = (e.OriginalSource as Button).CommandParameter.ToString();
+            Navigate(viewName);
         }
 
         private void LeftHamburgerButton_Click(object sender, RoutedEventArgs e)

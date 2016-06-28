@@ -1,5 +1,4 @@
-﻿using Esri.ArcGISRuntime.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,20 +20,11 @@ namespace Hamburger.UI.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MapView : Page
+    public sealed partial class ImageView : Page
     {
-        public MapView()
+        public ImageView()
         {
             this.InitializeComponent();
-        }
-
-
-        private void OnRootSceneViewLayerLoaded(object sender, LayerLoadedEventArgs e)
-        {
-            if (e.LoadError == null)
-                return;
-
-            //Debug.WriteLine($"Error while loading layer : {0} - {1}", e.Layer.ID, e.LoadError.Message);
         }
     }
 }

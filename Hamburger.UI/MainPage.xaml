@@ -44,19 +44,19 @@
                     Content="מפה"
                     Style="{StaticResource TopPanelButtonStyle}"
                     Click="ButtonClick"
-                    CommandParameter="MapFrame"
+                    CommandParameter="MapView"
                     RelativePanel.RightOf="TextButton"/>
             <Button Name="TextButton"
                     Content="טקסט"
                     Style="{StaticResource TopPanelButtonStyle}"
                     Click="ButtonClick"
-                    CommandParameter="TextFrame"
+                    CommandParameter="TextView"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"/>
             <Button Name="ImageButton"
                     Content="תמונה"
                     Style="{StaticResource TopPanelButtonStyle}"
                     Click="ButtonClick"
-                    CommandParameter="ImageFrame"
+                    CommandParameter="ImageView"
                     RelativePanel.LeftOf="TextButton"/>
             <Button Name="RightHamburgerButton" 
                     RelativePanel.AlignRightWithPanel="True"
@@ -171,19 +171,7 @@
                         </ListView>
                     </SplitView.Pane>
                     <SplitView.Content>
-                        <RelativePanel Name="FramesContainer">
-                            <Frame Name="MapFrame" Visibility="Visible" Style="{StaticResource FrameFitToParent}">
-                                <views:MapView/>
-                            </Frame>
-                            <Frame Name="TextFrame" Visibility="Collapsed" Style="{StaticResource FrameFitToParent}">
-                                <TextBox Text="EXAMPLE" FontSize="70"/>
-                            </Frame>
-                            <Frame Name="ImageFrame" Visibility="Collapsed" Style="{StaticResource FrameFitToParent}">
-                                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-                                    <Image Source="http://buylaughs.com/wp-content/uploads/2014/01/Funny-Babies-Pictures-2.jpg"/>
-                                </ScrollViewer>
-                            </Frame>
-                        </RelativePanel>
+                        <Frame Name="MainFrame"/>
                     </SplitView.Content>
 
                 </SplitView>
