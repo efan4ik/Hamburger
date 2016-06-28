@@ -58,12 +58,19 @@
                     Click="ButtonClick"
                     CommandParameter="ImageFrame"
                     RelativePanel.LeftOf="TextButton"/>
+            <Button Name="PdfButton"
+                    Content="מסמכים"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="PdfFrame"
+                    RelativePanel.LeftOf="ImageButton"/>
             <Button Name="RightHamburgerButton" 
                     RelativePanel.AlignRightWithPanel="True"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="32"
                     Content="&#xE700;"
                     Click="RightHamburgerButton_Click"/>
+            
         </RelativePanel>
 
         <SplitView Name="LeftPanel" 
@@ -181,6 +188,19 @@
                             <Frame Name="ImageFrame" Visibility="Collapsed" Style="{StaticResource FrameFitToParent}">
                                 <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
                                     <Image Source="http://buylaughs.com/wp-content/uploads/2014/01/Funny-Babies-Pictures-2.jpg"/>
+                                </ScrollViewer>
+                            </Frame>
+                            <Frame Name="PdfFrame" Visibility="Collapsed" Style="{StaticResource FrameFitToParent}" Loaded="PdfFrame_Loaded">
+                                <!--
+                                <Button Name="ShowPdf" Content="show" Click="ShowPdf_Click"/>-->
+                                <ScrollViewer ZoomMode="Enabled" Background="DarkGray" Grid.Column="1">
+                                    <ItemsControl ItemsSource="{Binding PdfPages, ElementName=root}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding}" Margin="0 2" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </ScrollViewer>
                             </Frame>
                         </RelativePanel>
