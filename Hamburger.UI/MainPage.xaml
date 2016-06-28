@@ -15,16 +15,25 @@
     mc:Ignorable="d">
     <Page.Resources>
         <!--<converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>-->
-        <Style TargetType="Button" x:Key="TopPanelButtonStyle">
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="20"/>
-        </Style>
         <Style TargetType="Frame" x:Key="FrameFitToParent">
             <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
             <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
             <Setter Property="RelativePanel.AlignBottomWithPanel" Value="True"/>
             <Setter Property="RelativePanel.AlignTopWithPanel" Value="True"/>
         </Style>
+
+        <Style TargetType="ListBox" x:Key="TopPanelListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Page.Resources>
 
     <Grid Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -40,24 +49,41 @@
                     FontSize="32"
                     Content="&#xE713;"
                     Click="LeftHamburgerButton_Click"/>
-            <Button Name="MapButton"
+            <ListBox Name="TopPanelListBox" 
+                      RelativePanel.AlignHorizontalCenterWithPanel="True"
+                      SelectionChanged="TopPanelListBox_SelectionChanged"  
+                      VerticalAlignment="Center"
+                      FlowDirection="RightToLeft"
+                      SelectionMode="Single"
+                      Height="{x:Bind LeftHamburgerButton.Height}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBoxItem Name="MapListItem" Content="מפה" Margin="2 0 2 0" IsSelected="True"/>
+                <ListBoxItem Name="TextListItem" Content="טקסט" Margin="2 0 2 0"/>
+                <ListBoxItem Name="ImageListItem" Content="תמונה" Margin="2 0 2 0"/>
+            </ListBox>
+            <!--<ToggleButton Name="MapButton"
                     Content="מפה"
                     Style="{StaticResource TopPanelButtonStyle}"
                     Click="ButtonClick"
                     CommandParameter="MapView"
-                    RelativePanel.RightOf="TextButton"/>
-            <Button Name="TextButton"
+                    RelativePanel.RightOf="TextButton"
+                    IsChecked="True"/>
+            <ToggleButton Name="TextButton"
                     Content="טקסט"
                     Style="{StaticResource TopPanelButtonStyle}"
                     Click="ButtonClick"
                     CommandParameter="TextView"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-            <Button Name="ImageButton"
+            <ToggleButton Name="ImageButton"
                     Content="תמונה"
                     Style="{StaticResource TopPanelButtonStyle}"
                     Click="ButtonClick"
                     CommandParameter="ImageView"
-                    RelativePanel.LeftOf="TextButton"/>
+                    RelativePanel.LeftOf="TextButton"/>-->
             <Button Name="RightHamburgerButton" 
                     RelativePanel.AlignRightWithPanel="True"
                     FontFamily="Segoe MDL2 Assets"
@@ -78,7 +104,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
                             <ToggleSwitch></ToggleSwitch>
-                            
+
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
@@ -93,7 +119,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="8,20,8,3">
-                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר </TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר</TextBlock>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
                             <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
