@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
 using Prism.Mvvm;
 using Prism.Commands;
+using Hamburger.UI.Models;
 
 namespace Hamburger.UI.ViewModels
 {
@@ -37,19 +38,37 @@ namespace Hamburger.UI.ViewModels
         private static GraphicSelection _selection;
         private GraphicsOverlay _polygonsOverlay;
         private GraphicsOverlay _polylinesOverlay;
-        public Visibility ColorPikerVisability { get; set; }
+        private Visibility _colorPickerVisability;
+        public Visibility ColorPikerVisability
+        {
+            get
+            {
+                return _colorPickerVisability;
+            }
+            set
+            {
+                SetProperty(ref _colorPickerVisability, value);
+            }
+        }
         private SolidColorBrush SelectedColor { get; set; } = new SolidColorBrush(Colors.Yellow);
-        public ICommand LineButton_Click { get; set; }
-        public ICommand AreaButton_Click { get; set; }
-        public ICommand EditButton_Click { get; set; }
         public ICommand ColorPickerButton_Click { get; set; }
+        public List<DrawingOption> DrawingOptions { get; set; }
 
         public PaintToolBoxViewModel()
         {
-            LineButton_Click = new DelegateCommand(() => OnLineButtonClick());
-            AreaButton_Click = new DelegateCommand(() => OnAreaButtonClick());
-            EditButton_Click = new DelegateCommand(() => OnEditButtonClick());
             ColorPickerButton_Click = new DelegateCommand(() => OnColorPickButtonClick());
+            initiolizeDrawingOptions();
+        }
+
+        private void initiolizeDrawingOptions()
+        {
+            DrawingOptions = new List<DrawingOption>
+            {
+                new DrawingOption("FreeHandButton","\xE70F",OnFreehandButtonClick,SceneEditHelper.Cancel),
+                new DrawingOption("LineButton","\xE738",OnLineButtonClick,SceneEditHelper.Cancel),
+                new DrawingOption("AreaButton","\xE932",OnAreaButtonClick,SceneEditHelper.Cancel),
+                new DrawingOption("EditButton","\xE8D3",OnEditButtonClick,SceneEditHelper.Cancel)
+            };
         }
 
         private void initiolizeMap(SceneView View)
@@ -161,6 +180,14 @@ namespace Hamburger.UI.ViewModels
         private async void OnLineButtonClick()
         {
             var geometry = await SceneEditHelper.CreatePolylineAsync(View);
+            var graphic = new Graphic(geometry);
+            graphic.Symbol = new SimpleLineSymbol() { Color = SelectedColor.Color, Width = DEFAULT_WIDTH };
+            _polylinesOverlay.Graphics.Add(graphic);
+        }
+
+        private async void OnFreehandButtonClick()
+        {
+            var geometry = await SceneEditHelper.CreateFreeHandAsync(View);
             var graphic = new Graphic(geometry);
             graphic.Symbol = new SimpleLineSymbol() { Color = SelectedColor.Color, Width = DEFAULT_WIDTH };
             _polylinesOverlay.Graphics.Add(graphic);

@@ -5,16 +5,42 @@
     xmlns:local="using:Hamburger.UI.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"  
-    
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:models="using:Hamburger.UI.Models"
     mc:Ignorable="d">
-    <RelativePanel>
-        <Button Name="EditButton" Background="White" Content="&#xE70F;" Command="{Binding EditButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" />
-        <Button Name ="LineButton" Background="White" Content="&#xE738;" Command="{Binding LineButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="EditButton" />
-        <Button Name ="AreaButton" Background="White" Content="&#xE932;" Command="{Binding AreaButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="LineButton"/>
-        <Border Name ="Border" RelativePanel.RightOf="AreaButton" Height="50" Width="4" BorderBrush="Black" BorderThickness="0,0,10,0"/>
-        <Button Name ="ColorPickButton" Background="White" Content="&#xE8D3;" Command="{Binding ColorPickerButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="Border" Foreground="Yellow"/>
-        <local:ColorPickerView x:Name="ColorPicker" RelativePanel.Below="ColorPickButton" RelativePanel.AlignHorizontalCenterWith="ColorPickButton" Visibility="Collapsed"/>
-        <!--ColorChanged="ColorPicker_ColorChanged"-->
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="DrawingOptionTemplate" x:DataType="models:DrawingOption">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Border  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <TextBlock Name="{x:Bind Name}" Text="{x:Bind Icon}" FontSize="36" FontFamily="Segoe MDL2 Assets"/>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+
+    <RelativePanel  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--<ToggleButton Name ="FreeHandButton" Background="White" Content="&#xE70F;" Command="{Binding FreeHandButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36"  RelativePanel.Below="ColorPicker"/>
+        <Button Name ="LineButton" Background="White" Content="&#xE738;" Command="{Binding LineButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="FreeHandButton" RelativePanel.AlignVerticalCenterWith="FreeHandButton"/>
+        <Button Name ="AreaButton" Background="White" Content="&#xE932;" Command="{Binding AreaButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="LineButton" RelativePanel.AlignVerticalCenterWith="FreeHandButton"/>
+        <Border Name ="Border" RelativePanel.RightOf="AreaButton" Height="50" Width="4" BorderBrush="Black" BorderThickness="0,0,10,0" RelativePanel.AlignVerticalCenterWith="FreeHandButton"/>
+        <Button Name ="ColorPickButton" Background="White" Content="&#xE1C7;" Command="{Binding ColorPickerButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="Border" Foreground="Yellow"  RelativePanel.Below="ColorPicker"/>
+        <local:ColorPickerView x:Name="ColorPicker" Visibility="{Binding ColorPikerVisability, Mode=TwoWay}"/>
+        <Button  Name="EditButton" Background="White" Content="&#xE8D3;" Command="{Binding EditButton_Click}" FontFamily="Segoe MDL2 Assets" FontSize="36" RelativePanel.RightOf="ColorPickButton" Foreground="Yellow" RelativePanel.AlignVerticalCenterWith="ColorPickButton"/>
+        --><!--ColorChanged="ColorPicker_ColorChanged"-->
+
+
+
+        <!--<local:ColorPickerView x:Name="ColorPicker" Visibility="{Binding ColorPikerVisability, Mode=TwoWay}"/>
+        <Button Name ="ColorPickButton" Command="{Binding ColorPickerButton_Click}" RelativePanel.Below="ColorPicker" RelativePanel.AlignHorizontalCenterWith="ColorPicker" Background="White" Content="&#xE1C7;"  FontFamily="Segoe MDL2 Assets" FontSize="36" Foreground="Yellow"/>-->
+        <Border Name ="Border" Height="50" Width="4" BorderBrush="Black" BorderThickness="0,0,10,0"/>
+        <ListView Name="myList" ItemClick="myList_ItemClick" ItemTemplate="{StaticResource DrawingOptionTemplate}" ItemsSource="{x:Bind VM.DrawingOptions}" IsItemClickEnabled="True" RelativePanel.RightOf="Border">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </RelativePanel>
 </UserControl>

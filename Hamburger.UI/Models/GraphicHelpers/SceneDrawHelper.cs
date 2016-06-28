@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 #if NETFX_CORE
 using Windows.UI;
+using Windows.UI.Xaml.Input;
 #else
 using System.Windows.Media;
 #endif
@@ -194,6 +195,64 @@ namespace Hamburger.UI.Models.GraphicHelpers
                 cleanup();
             }
 
+            return result;
+        }
+
+        public static async Task<Geometry> DrawFreeHandAsync(SceneView sceneView, System.Threading.CancellationToken cancellationToken)
+        {
+            bool isDrawing = false;
+            var tcs = new TaskCompletionSource<Polyline>();
+            PolylineBuilder polylineBuilder = new PolylineBuilder(sceneView.SpatialReference);
+            var sketchlayer = CreateSketchLayer(sceneView);
+            Graphic lineGraphic = new Graphic() { Symbol = DefaultLineSymbol };
+            Graphic lineMoveGraphic = new Graphic() { Symbol = DefaultLineMoveSymbol };
+            sketchlayer.Graphics.AddRange(new Graphic[] { lineGraphic, lineMoveGraphic });
+            PointerEventHandler onPointerPressed = ((s, e) =>
+            {
+                isDrawing = true;
+                sceneView.ManipulationMode = ManipulationModes.None;
+            });
+            sceneView.PointerPressed += onPointerPressed;
+            PointerEventHandler onPointerMoved = ((s, e) =>
+            {
+                if (isDrawing && e != null)
+                {
+                    var position = sceneView.ScreenToLocation(e.GetCurrentPoint(sceneView).Position);
+                    if (position != null)
+                    {
+                        polylineBuilder.AddPoint(position);
+                        if (polylineBuilder.Parts.Count > 0 && polylineBuilder.Parts[0].Count >= 1)
+                            lineGraphic.Geometry = polylineBuilder.ToGeometry();
+                    }
+                }
+            });
+            sceneView.PointerMoved += onPointerMoved;
+            PointerEventHandler onPointerReleased = ((s, e) =>
+            {
+                if (isDrawing && polylineBuilder.Parts.Count > 0 && polylineBuilder.Parts[0].Count >= 1)
+                    tcs.SetResult(polylineBuilder.ToGeometry());
+                isDrawing = false;
+            });
+            sceneView.PointerReleased += onPointerReleased;
+            Action cleanup = () =>
+            {
+                sceneView.GraphicsOverlays.Remove(sketchlayer);
+                sceneView.ManipulationMode = Windows.UI.Xaml.Input.ManipulationModes.All;
+                sceneView.PointerPressed -= onPointerPressed;
+                sceneView.PointerMoved -= onPointerMoved;
+                sceneView.PointerReleased -= onPointerReleased;
+            };
+            cancellationToken.Register(() => tcs.SetCanceled());
+
+            Polyline result = null;
+            try
+            {
+                result = await tcs.Task;
+            }
+            finally
+            {
+                cleanup();
+            }
             return result;
         }
         #endregion public draw operations

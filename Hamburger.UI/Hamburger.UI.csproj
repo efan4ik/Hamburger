@@ -98,6 +98,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DrawingOption.cs" />
     <Compile Include="Models\GraphicHelpers\GraphicSelection.cs" />
     <Compile Include="Models\GraphicHelpers\SceneDrawHelper.cs" />
     <Compile Include="Models\GraphicHelpers\SceneEditHelper.cs" />

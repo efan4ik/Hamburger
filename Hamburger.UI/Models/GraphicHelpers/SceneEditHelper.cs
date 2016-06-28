@@ -96,6 +96,23 @@ namespace Hamburger.UI.Models.GraphicHelpers
         }
 
         /// <summary>
+        /// Create a new <see cref="Geometry"/>. This will activate drawing experience on the map. Draw is statrt when touch the sceneView and 
+        /// completed on release.
+        /// </summary>
+        /// <param name="sceneView">The <see cref="SceneView"/> that is used for drawing.</param>
+        /// <exception cref="TaskCanceledException">If previous task wasn't completed, <see cref="TaskCanceledException"/>
+        /// will be thrown. The task is cancelled if <see cref="Cancel"/> method or if any other draw or edit method is called.
+        /// </exception>
+        /// <returns>Return new <see cref="Polyline"/> based on the user interactions.</returns>
+        public static async Task<Geometry> CreateFreeHandAsync(SceneView sceneView)
+        {
+            Initialize();
+            var geometry = await SceneDrawHelper.DrawFreeHandAsync(sceneView, _drawTaskTokenSource.Token);
+            Cleanup();
+            return geometry;
+        }
+
+        /// <summary>
         /// Create a new <see cref="Polygon"/>. This will activate drawing experience on the map. Draw is completed on double click.
         /// </summary>
         /// <param name="sceneView">The <see cref="SceneView"/> that is used for drawing.</param>
