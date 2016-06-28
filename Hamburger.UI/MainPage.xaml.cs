@@ -88,6 +88,7 @@ namespace Hamburger.UI
 
             }
         }
+        
 
         private void Navigate(string viewName)
         {
@@ -99,7 +100,7 @@ namespace Hamburger.UI
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            var viewName = (e.OriginalSource as Button).CommandParameter.ToString();
+            var viewName = (e.OriginalSource as ToggleButton).CommandParameter.ToString();
             Navigate(viewName);
         }
 
@@ -121,6 +122,19 @@ namespace Hamburger.UI
             //    CurrentFrame = "TextFrame";
             //else if (ImageListItem.IsSelected)
             //    CurrentFrame = "ImageFrame";
+        }
+
+        private void TopPanelListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Views == null)
+                return;
+
+            if (MapListItem.IsSelected)
+                Navigate("MapView");
+            else if (TextListItem.IsSelected)
+                Navigate("TextView");
+            else if (ImageListItem.IsSelected)
+                Navigate("ImageView");
         }
     }
 }

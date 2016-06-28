@@ -26,6 +26,9 @@
                             ServiceUri="http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer" />
             </esri:Scene>
         </esri:SceneView>
-        <!--<views:PaintToolBox View="{Binding ElementName=RooSceneView}"/>-->
+        <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <views:PaintToolBox View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton"/>
+            <Button Name ="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0"/>
+        </RelativePanel>
     </Grid>
 </Page>

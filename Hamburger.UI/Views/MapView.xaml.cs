@@ -36,5 +36,10 @@ namespace Hamburger.UI.Views
 
             //Debug.WriteLine($"Error while loading layer : {0} - {1}", e.Layer.ID, e.LoadError.Message);
         }
+
+        private void NorthButton_Click(object sender, RoutedEventArgs e)
+        {
+            RooSceneView.SetViewAsync(new Camera(RooSceneView.Camera.Location, 0, 0));
+        }
     }
 }
