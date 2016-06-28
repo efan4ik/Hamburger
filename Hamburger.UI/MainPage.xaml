@@ -38,7 +38,7 @@
                     RelativePanel.AlignLeftWithPanel="True"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="32"
-                    Content="&#xE700;"
+                    Content="&#xE713;"
                     Click="LeftHamburgerButton_Click"/>
             <Button Name="MapButton"
                     Content="מפה"
@@ -67,12 +67,59 @@
         </RelativePanel>
 
         <SplitView Name="LeftPanel" 
-        CompactPaneLength="52" 
         IsPaneOpen="False" 
-        DisplayMode="CompactOverlay" 
+        DisplayMode="Overlay" 
         OpenPaneLength="200" Grid.Row="1">
             <SplitView.Pane>
-                <ListView SelectionChanged="ListView_SelectionChanged">
+                <StackPanel FlowDirection="RightToLeft">
+                    <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">הגדרות</TextBlock>
+                    <StackPanel  Margin="8,20,8,3">
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8">משהו</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
+                            <ToggleSwitch></ToggleSwitch>
+                            
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
+                            <ToggleSwitch></ToggleSwitch>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 3</TextBlock>
+                            <ToggleSwitch></ToggleSwitch>
+
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Margin="8,20,8,3">
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 1</TextBlock>
+                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 2</TextBlock>
+                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה 3</TextBlock>
+                            <ToggleSwitch OnContent="" OffContent="" ></ToggleSwitch>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה אחרת</TextBlock>
+                            <Slider Margin="8,8,8,8"></Slider>
+
+                        </StackPanel>
+                    </StackPanel>
+
+
+                </StackPanel>
+                <!--<ListView SelectionChanged="ListView_SelectionChanged">
                     <ListViewItem Name="MapListItem" Margin="0 4 0 4">
                         <RelativePanel>
                             <TextBlock Name="MapIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;"/>
@@ -91,7 +138,7 @@
                             <TextBlock FontSize="20" Text="תמונה" Margin="20 0 0 0" RelativePanel.RightOf="ImageIcon"/>
                         </RelativePanel>
                     </ListViewItem>
-                </ListView>
+                </ListView>-->
             </SplitView.Pane>
             <SplitView.Content>
                 <SplitView
