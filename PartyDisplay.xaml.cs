@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -45,6 +46,7 @@ namespace PartyViewer
             timer.Interval = new TimeSpan(0, 0, timeToDisplayLocationBar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void LoadImages()
         {
             Image firstImage = new Image();
@@ -99,6 +101,7 @@ namespace PartyViewer
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void ResetTimer()
         {
             timer.Stop();
@@ -106,6 +109,7 @@ namespace PartyViewer
             timer.Start();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void ManageLocationBarSelected()
         {
             if (locationBar.Children.Count >= currentIndex && currentIndex > 0)
@@ -118,6 +122,7 @@ namespace PartyViewer
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void ManageCyclicalNavigation()
         {
             if (currentIndex == 0)
