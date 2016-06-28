@@ -98,9 +98,11 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\BarModel.cs" />
     <Compile Include="Models\GraphicHelpers\GraphicSelection.cs" />
     <Compile Include="Models\GraphicHelpers\SceneDrawHelper.cs" />
     <Compile Include="Models\GraphicHelpers\SceneEditHelper.cs" />
+    <Compile Include="Models\RestrauntModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
