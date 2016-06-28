@@ -19,6 +19,7 @@ using Windows.Data.Pdf;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using System.Collections.ObjectModel;
+using Windows.Storage.Pickers;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -114,46 +115,135 @@ namespace Hamburger.UI
 
             
         }
-        
 
-        public async void OpenLocal()
+
+        //    public async void OpenLocal()
+        //    {
+        //        StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+        //        StorageFile file = await appInstalledFolder.GetFileAsync("Assets\\sampleLinks.pdf");
+        //        PdfDocument doc = await PdfDocument.LoadFromFileAsync(file);
+
+        //        Load(doc);
+        //    }
+
+        //    async void Load(PdfDocument pdfDoc)
+        //    {
+        //        PdfPages.Clear();
+
+        //        for (uint i = 0; i < pdfDoc.PageCount; i++)
+        //        {
+        //            BitmapImage image = new BitmapImage();
+
+        //            var page = pdfDoc.GetPage(i);
+
+        //            using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+        //            {
+        //                await page.RenderToStreamAsync(stream);
+        //                await image.SetSourceAsync(stream);
+        //            }
+
+        //            PdfPages.Add(image);
+        //        }
+        //    }
+
+        //    public ObservableCollection<BitmapImage> PdfPages
+        //    {
+        //        get;
+        //        set;
+        //    } = new ObservableCollection<BitmapImage>();
+
+        //    private void PdfFrame_Loaded(object sender, RoutedEventArgs e)
+        //    {
+        //        OpenLocal();
+        //    }
+
+        private PdfDocument pdfDocument;
+
+        const int WrongPassword = unchecked((int)0x8007052b); // HRESULT_FROM_WIN32(ERROR_WRONG_PASSWORD)
+        const int GenericFail = unchecked((int)0x80004005);   // E_FAIL
+
+        private async void LoadDocument()
         {
-            StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            StorageFile file = await appInstalledFolder.GetFileAsync("Assets\\sampleLinks.pdf");
-            PdfDocument doc = await PdfDocument.LoadFromFileAsync(file);
+            LoadButton.IsEnabled = false;
 
-            Load(doc);
-        }
+            pdfDocument = null;
+            Output.Source = null;
+            PageNumberBox.Text = "1";
+            RenderingPanel.Visibility = Visibility.Collapsed;
 
-        async void Load(PdfDocument pdfDoc)
-        {
-            PdfPages.Clear();
-
-            for (uint i = 0; i < pdfDoc.PageCount; i++)
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".pdf");
+            StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
             {
-                BitmapImage image = new BitmapImage();
-
-                var page = pdfDoc.GetPage(i);
-
-                using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+                ProgressControl.Visibility = Visibility.Visible;
+                try
                 {
-                    await page.RenderToStreamAsync(stream);
-                    await image.SetSourceAsync(stream);
+                    pdfDocument = await PdfDocument.LoadFromFileAsync(file, PasswordBox.Password);
+                }
+                catch (Exception ex)
+                {
                 }
 
-                PdfPages.Add(image);
+                if (pdfDocument != null)
+                {
+                    RenderingPanel.Visibility = Visibility.Visible;
+                   
+                    PageCountText.Text = pdfDocument.PageCount.ToString();
+                }
+                ProgressControl.Visibility = Visibility.Collapsed;
             }
+            LoadButton.IsEnabled = true;
         }
 
-        public ObservableCollection<BitmapImage> PdfPages
+        private async void ViewPage()
         {
-            get;
-            set;
-        } = new ObservableCollection<BitmapImage>();
 
-        private void PdfFrame_Loaded(object sender, RoutedEventArgs e)
-        {
-            OpenLocal();
+            uint pageNumber;
+            if (!uint.TryParse(PageNumberBox.Text, out pageNumber) || (pageNumber < 1) || (pageNumber > pdfDocument.PageCount))
+            {
+                return;
+            }
+
+            Output.Source = null;
+            ProgressControl.Visibility = Visibility.Visible;
+
+            // Convert from 1-based page number to 0-based page index.
+            uint pageIndex = pageNumber - 1;
+
+            using (PdfPage page = pdfDocument.GetPage(pageIndex))
+            {
+                var stream = new InMemoryRandomAccessStream();
+                switch (Options.SelectedIndex)
+                {
+                    // View actual size.
+                    case 0:
+                        await page.RenderToStreamAsync(stream);
+                        break;
+
+                    // View half size on beige background.
+                    case 1:
+                        var options1 = new PdfPageRenderOptions();
+                        options1.BackgroundColor = Windows.UI.Colors.Beige;
+                        options1.DestinationHeight = (uint)(page.Size.Height / 2);
+                        options1.DestinationWidth = (uint)(page.Size.Width / 2);
+                        await page.RenderToStreamAsync(stream, options1);
+                        break;
+
+                    // Crop to center.
+                    case 2:
+                        var options2 = new PdfPageRenderOptions();
+                        var rect = page.Dimensions.TrimBox;
+                        options2.SourceRect = new Rect(rect.X + rect.Width / 4, rect.Y + rect.Height / 4, rect.Width / 2, rect.Height / 2);
+                        await page.RenderToStreamAsync(stream, options2);
+                        break;
+                }
+                BitmapImage src = new BitmapImage();
+                Output.Source = src;
+                await src.SetSourceAsync(stream);
+            }
+            ProgressControl.Visibility = Visibility.Collapsed;
         }
     }
 }
+
