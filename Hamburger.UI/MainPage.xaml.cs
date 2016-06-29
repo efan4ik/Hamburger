@@ -158,32 +158,33 @@ namespace Hamburger.UI
         //    }
 
         private PdfDocument pdfDocument;
+        private uint pageNumber = 1;
 
-        const int WrongPassword = unchecked((int)0x8007052b); // HRESULT_FROM_WIN32(ERROR_WRONG_PASSWORD)
-        const int GenericFail = unchecked((int)0x80004005);   // E_FAIL
 
         private async void LoadDocument()
         {
-            LoadButton.IsEnabled = false;
+            //LoadButton.IsEnabled = false;
 
             pdfDocument = null;
             Output.Source = null;
             PageNumberBox.Text = "1";
             RenderingPanel.Visibility = Visibility.Collapsed;
 
-            var picker = new FileOpenPicker();
-            picker.FileTypeFilter.Add(".pdf");
-            StorageFile file = await picker.PickSingleFileAsync();
+            //var picker = new FileOpenPicker();
+            //picker.FileTypeFilter.Add(".pdf");
+            //StorageFile file = await picker.PickSingleFileAsync();
+
+            StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            StorageFile file = await appInstalledFolder.GetFileAsync("Assets\\sampleLinks.pdf");
+            //PdfDocument doc = await PdfDocument.LoadFromFileAsync(file);
             if (file != null)
             {
                 ProgressControl.Visibility = Visibility.Visible;
                 try
                 {
-                    pdfDocument = await PdfDocument.LoadFromFileAsync(file, PasswordBox.Password);
+                    pdfDocument = await PdfDocument.LoadFromFileAsync(file);
                 }
-                catch (Exception ex)
-                {
-                }
+                catch (Exception ex) { }
 
                 if (pdfDocument != null)
                 {
@@ -193,14 +194,16 @@ namespace Hamburger.UI
                 }
                 ProgressControl.Visibility = Visibility.Collapsed;
             }
-            LoadButton.IsEnabled = true;
+            //LoadButton.IsEnabled = true;
+            ViewPage();
+
         }
 
         private async void ViewPage()
         {
 
-            uint pageNumber;
-            if (!uint.TryParse(PageNumberBox.Text, out pageNumber) || (pageNumber < 1) || (pageNumber > pdfDocument.PageCount))
+            
+            if ( (pageNumber < 1) || (pageNumber > pdfDocument.PageCount)) //!uint.TryParse(PageNumberBox.Text, out pageNumber) ||
             {
                 return;
             }
@@ -214,36 +217,43 @@ namespace Hamburger.UI
             using (PdfPage page = pdfDocument.GetPage(pageIndex))
             {
                 var stream = new InMemoryRandomAccessStream();
-                switch (Options.SelectedIndex)
-                {
-                    // View actual size.
-                    case 0:
-                        await page.RenderToStreamAsync(stream);
-                        break;
+                await page.RenderToStreamAsync(stream);
+                /*switch (Options.SelectedIndex)
+                //{
+                //    // View actual size.
+                //    case 0:
+                //        await page.RenderToStreamAsync(stream);
+                //        break;
 
-                    // View half size on beige background.
-                    case 1:
-                        var options1 = new PdfPageRenderOptions();
-                        options1.BackgroundColor = Windows.UI.Colors.Beige;
-                        options1.DestinationHeight = (uint)(page.Size.Height / 2);
-                        options1.DestinationWidth = (uint)(page.Size.Width / 2);
-                        await page.RenderToStreamAsync(stream, options1);
-                        break;
+                //    // View half size on beige background.
+                //    case 1:
+                //        var options1 = new PdfPageRenderOptions();
+                //        options1.BackgroundColor = Windows.UI.Colors.Beige;
+                //        options1.DestinationHeight = (uint)(page.Size.Height / 2);
+                //        options1.DestinationWidth = (uint)(page.Size.Width / 2);
+                //        await page.RenderToStreamAsync(stream, options1);
+                //        break;
 
-                    // Crop to center.
-                    case 2:
-                        var options2 = new PdfPageRenderOptions();
-                        var rect = page.Dimensions.TrimBox;
-                        options2.SourceRect = new Rect(rect.X + rect.Width / 4, rect.Y + rect.Height / 4, rect.Width / 2, rect.Height / 2);
-                        await page.RenderToStreamAsync(stream, options2);
-                        break;
-                }
+                //    // Crop to center.
+                //    case 2:
+                //        var options2 = new PdfPageRenderOptions();
+                //        var rect = page.Dimensions.TrimBox;
+                //        options2.SourceRect = new Rect(rect.X + rect.Width / 4, rect.Y + rect.Height / 4, rect.Width / 2, rect.Height / 2);
+                //        await page.RenderToStreamAsync(stream, options2);
+                //        break;
+               }*/
                 BitmapImage src = new BitmapImage();
                 Output.Source = src;
                 await src.SetSourceAsync(stream);
             }
             ProgressControl.Visibility = Visibility.Collapsed;
         }
+
+        private void LoadDocument(object sender, RoutedEventArgs e)
+        {
+            LoadDocument();
+        }
+
     }
 }
 
