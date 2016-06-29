@@ -3,7 +3,8 @@
     "ColorPicker": "1.0.2",
     "Esri.ArcGISRuntime": "10.2.7.1234",
     "Esri.ArcGISRuntime.Toolkit": "10.2.7.1234",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "MvvmLight": "5.3.0"
   },
   "frameworks": {
     "uap10.0": {}

@@ -100,6 +100,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Messages\JumpToPointMessage.cs" />
+    <Compile Include="Messages\PaintModeMessage.cs" />
+    <Compile Include="Messages\ScalebarModeMessage.cs" />
     <Compile Include="Models\BarModel.cs" />
     <Compile Include="Models\GraphicHelpers\GraphicSelection.cs" />
     <Compile Include="Models\GraphicHelpers\SceneDrawHelper.cs" />
@@ -108,12 +111,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
+    <Compile Include="ViewModels\TextViewModel.cs" />
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IMapView.cs" />
     <Compile Include="Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>

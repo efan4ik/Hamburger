@@ -12,6 +12,7 @@
 	xmlns:geom="using:Esri.ArcGISRuntime.Geometry"
     xmlns:views="using:Hamburger.UI.Views"
     xmlns:vm="using:Hamburger.UI.ViewModels"
+    xmlns:models="using:Hamburger.UI.Models"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -106,15 +107,15 @@
                     <StackPanel  Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8">משהו</TextBlock>
                         <ToggleButton x:Name="DrawingToggle" FontSize="20" Margin="8,8,8,8" IsChecked="{Binding IsDrawingOn, Mode=TwoWay}">ציור על המפה</ToggleButton>
-                        <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 2</ToggleButton>
+                        <Button  FontSize="20" Margin="8,8,8,8" Command="{Binding JumpToPointCommand}">קפוץ לנ.צ</Button>
                         <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 3</ToggleButton>
                     </StackPanel>
 
                     <StackPanel Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר</TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
-                            <TextBlock  FontSize="20" >הגדרה 1</TextBlock>
+                            <ToggleSwitch MinWidth="20" IsOn="{Binding IsScalebarVisible, Mode=TwoWay}" OnContent="" OffContent=""/>
+                            <TextBlock FontSize="20" Text="הצג קנה מידה"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
@@ -153,8 +154,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
                                                     <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}"/>
-                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets"
-                                                 FontSize="26" Content="&#xECCD;"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets" FontSize="26" Content="&#xECCD;"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

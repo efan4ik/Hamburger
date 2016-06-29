@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hamburger.UI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Hamburger.UI.Views
         public TextView()
         {
             this.InitializeComponent();
+            DataContext = new TextViewModel();
         }
     }
 }

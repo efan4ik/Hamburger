@@ -1,9 +1,12 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+
 
 namespace Hamburger.UI
 {
@@ -20,6 +23,7 @@ namespace Hamburger.UI
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            
         }
 
         /// <summary>
@@ -60,7 +64,19 @@ namespace Hamburger.UI
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+
+                //MVVMLight initialization
+                DispatcherHelper.Initialize();
+
+                Messenger.Default.Register<NotificationMessageAction<string>>(
+                    this,
+                    HandleNotificationMessage);
             }
+        }
+
+        private void HandleNotificationMessage(NotificationMessageAction<string> message)
+        {
+            message.Execute("Success (from App.xaml.cs)!");
         }
 
         /// <summary>

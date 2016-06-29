@@ -5,9 +5,11 @@
     xmlns:local="using:Hamburger.UI.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Hamburger.UI.ViewModels"
     mc:Ignorable="d">
 
+    
     <Grid Background="LightBlue">
-        <TextBox FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Text... "/>
+        <TextBox FontSize="72" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Text, Mode=TwoWay}"/>
     </Grid>
 </Page>
