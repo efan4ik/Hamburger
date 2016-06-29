@@ -42,7 +42,7 @@
                            Visibility="{Binding IsScalebarVisible, Mode=OneWay, Converter={StaticResource BoolToVisibleConverter}}"/>
         <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <views:PaintToolBox View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton" Visibility="{Binding IsToolboxVisible, Mode=OneWay, Converter={StaticResource BoolToVisibleConverter}}"/>
-            <Button Name ="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            <Button Name="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
         </RelativePanel>
     </Grid>
 </Page>
