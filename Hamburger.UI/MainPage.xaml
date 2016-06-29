@@ -148,7 +148,7 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
-                                                    <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}"/>
+                                                    <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}" Click="NavToImage"/>
                                                     <Button Height="40" FontFamily="Segoe MDL2 Assets"
                                                  FontSize="26" Content="&#xECCD;"/>
                                                 </StackPanel>

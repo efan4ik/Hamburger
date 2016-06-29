@@ -28,6 +28,8 @@ namespace Hamburger.UI
     {
         public List<RestrauntModel> Restraunts { get; set; }
         public List<BarModel> Bars { get; set; }
+        private PartyDetailsView partyDetailsView = new PartyDetailsView();
+        Button prevButton = new Button();
 
         public MainPage()
         {
@@ -39,16 +41,31 @@ namespace Hamburger.UI
             {
                  {"MapView", new Views.MapView()},
                 {"TextView", new TextView()},
-                {"ImageView", new ImageView()}
+                {"ImageView", new ImageView()},
+                { "PartyDetailsView", partyDetailsView}
             };
             Navigate("MapView");
         }
 
+        private void NavToImage(object sender, RoutedEventArgs e)
+        {
+            ((ListBox)FindName("TopPanelListBox")).SelectedIndex = 2;
+            //It is important to disable a resteraunt button once clicked, not only
+            //for the UX, but also because there is a KNOWN BUG in FlipView that we can avoid
+            //if we never navigate to the FlipView that is already being displayed (and while
+            //there are other ways to avoid doing that, we choose disabling the buttons, since
+            //it in any case improves the UX)
+            prevButton.IsEnabled = true;
+            ((Button)sender).IsEnabled = false;
+            prevButton = (Button) sender;
+            partyDetailsView.DisplayPics(((Button) sender).Content.ToString());
+            Navigate("PartyDetailsView");
+        }
 
         private void initializeDummyRestraunts()
         {
             Restraunts = new List<RestrauntModel>() { new RestrauntModel { Name = "Mex&Co" }, new RestrauntModel { Name = "Segev" }, new RestrauntModel { Name = "Gordos" },
-                                                     new RestrauntModel {Name = "Humangous" } , new RestrauntModel {Name="Blondie" }, new RestrauntModel {Name="MeatNight" } };
+                                                     new RestrauntModel {Name = "Humangous" }};
         }
 
         private void initializeDummyBars()
@@ -134,7 +151,7 @@ namespace Hamburger.UI
             else if (TextListItem.IsSelected)
                 Navigate("TextView");
             else if (ImageListItem.IsSelected)
-                Navigate("ImageView");
+                Navigate("PartyDetailsView");
         }
     }
 }

@@ -102,8 +102,11 @@
     <Compile Include="Models\GraphicHelpers\GraphicSelection.cs" />
     <Compile Include="Models\GraphicHelpers\SceneDrawHelper.cs" />
     <Compile Include="Models\GraphicHelpers\SceneEditHelper.cs" />
+    <Compile Include="Models\PartyImageModel.cs" />
     <Compile Include="Models\RestrauntModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\PartyDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PartyImageViewModel.cs" />
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,12 @@
     <Compile Include="Views\PaintToolBox.xaml.cs">
       <DependentUpon>PaintToolBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PartyDetailsView.xaml.cs">
+      <DependentUpon>PartyDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PartyImageView.xaml.cs">
+      <DependentUpon>PartyImageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TextView.xaml.cs">
       <DependentUpon>TextView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +136,22 @@
     <None Include="Hamburger.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Gordoslarge.bmp" />
+    <Content Include="Assets\Gordoslist.bmp" />
+    <Content Include="Assets\Gordosmedium.bmp" />
+    <Content Include="Assets\Gordossmall.bmp" />
+    <Content Include="Assets\Humangouslarge.bmp" />
+    <Content Include="Assets\Humangouslist.bmp" />
+    <Content Include="Assets\Humangousmedium.bmp" />
+    <Content Include="Assets\Humangoussmall.bmp" />
+    <Content Include="Assets\Mex&amp;Colarge.bmp" />
+    <Content Include="Assets\Mex&amp;Colist.bmp" />
+    <Content Include="Assets\Mex&amp;Comedium.bmp" />
+    <Content Include="Assets\Mex&amp;Cosmall.bmp" />
+    <Content Include="Assets\Segevlarge.bmp" />
+    <Content Include="Assets\Segevlist.bmp" />
+    <Content Include="Assets\Segevmedium.bmp" />
+    <Content Include="Assets\Segevsmall.bmp" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -161,14 +186,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PartyDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PartyImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\TextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
