@@ -11,6 +11,7 @@
 	xmlns:symb="using:Esri.ArcGISRuntime.Symbology"
 	xmlns:geom="using:Esri.ArcGISRuntime.Geometry"
     xmlns:views="using:Hamburger.UI.Views"
+    xmlns:esriTK="using:Esri.ArcGISRuntime.Toolkit.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -30,5 +31,6 @@
             <views:PaintToolBox View="{Binding ElementName=RootSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton"/>
             <Button Name ="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0"/>
         </RelativePanel>
+        <esriTK:ScaleLine Scale="{Binding Scale, ElementName=MyMapView}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Margin="20,20,40,20"  Background="Red"/>
     </Grid>
 </Page>
