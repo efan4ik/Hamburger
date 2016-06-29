@@ -27,8 +27,8 @@
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"/>
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
@@ -93,9 +93,9 @@
         </RelativePanel>
 
         <SplitView Name="LeftPanel" 
-        IsPaneOpen="False" 
-        DisplayMode="Inline"
-        OpenPaneLength="200" Grid.Row="1">
+                   IsPaneOpen="False" 
+                   DisplayMode="Inline"
+                   OpenPaneLength="200" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel FlowDirection="RightToLeft">
                     <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">הגדרות</TextBlock>
@@ -131,14 +131,14 @@
 
                 </StackPanel>
             </SplitView.Pane>
+            
             <SplitView.Content>
-                <SplitView
-                 Name="RightPanel" 
-                 IsHoldingEnabled="True"
-                 IsPaneOpen="False" 
-                 DisplayMode="Inline" 
-                 OpenPaneLength="200" Grid.Row="1"
-                 PanePlacement="Right">
+                <SplitView Name="RightPanel" 
+                           IsHoldingEnabled="True"
+                           IsPaneOpen="False" 
+                           DisplayMode="Inline" 
+                           OpenPaneLength="200" Grid.Row="1"
+                           PanePlacement="Right">
                     <SplitView.Pane>
                         <StackPanel FlowDirection="RightToLeft" >
                             <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים</TextBlock>
@@ -150,7 +150,7 @@
                                                 <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
                                                     <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}"/>
                                                     <Button Height="40" FontFamily="Segoe MDL2 Assets"
-                                                 FontSize="26" Content="&#xECCD;"/>
+                                                            FontSize="26" Content="&#xECCD;"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -162,7 +162,6 @@
 
                             <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,10,0,0" Height="300">
                                 <StackPanel>
-
                                     <ItemsControl ItemsSource="{Binding Bars}" Margin="8,10,0,0">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate >
@@ -199,10 +198,10 @@
                             </ListViewItem>
                         </ListView>-->
                     </SplitView.Pane>
+                    
                     <SplitView.Content>
                         <Frame Name="MainFrame"/>
                     </SplitView.Content>
-
                 </SplitView>
             </SplitView.Content>
         </SplitView>

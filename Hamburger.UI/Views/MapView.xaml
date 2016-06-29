@@ -14,7 +14,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <esri:SceneView x:Name="RooSceneView"
+        <esri:SceneView x:Name="RootSceneView"
 					  LayerLoaded="OnRootSceneViewLayerLoaded">
             <esri:Scene>
                 <esri:Scene.Surface>
@@ -27,7 +27,7 @@
             </esri:Scene>
         </esri:SceneView>
         <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <views:PaintToolBox View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton"/>
+            <views:PaintToolBox View="{Binding ElementName=RootSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton"/>
             <Button Name ="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0"/>
         </RelativePanel>
     </Grid>

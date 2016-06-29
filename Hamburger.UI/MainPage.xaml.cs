@@ -98,11 +98,11 @@ namespace Hamburger.UI
             }
         }
 
-        private void ButtonClick(object sender, RoutedEventArgs e)
-        {
-            var viewName = (e.OriginalSource as ToggleButton).CommandParameter.ToString();
-            Navigate(viewName);
-        }
+        //private void ButtonClick(object sender, RoutedEventArgs e)
+        //{
+        //    var viewName = (e.OriginalSource as ToggleButton).CommandParameter.ToString();
+        //    Navigate(viewName);
+        //}
 
         private void LeftHamburgerButton_Click(object sender, RoutedEventArgs e)
         {
@@ -114,15 +114,15 @@ namespace Hamburger.UI
             RightPanel.IsPaneOpen = !RightPanel.IsPaneOpen;
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (MapListItem.IsSelected)
-            //    CurrentFrame = "MapFrame";
-            //else if (TextListItem.IsSelected)
-            //    CurrentFrame = "TextFrame";
-            //else if (ImageListItem.IsSelected)
-            //    CurrentFrame = "ImageFrame";
-        }
+        //private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    //if (MapListItem.IsSelected)
+        //    //    CurrentFrame = "MapFrame";
+        //    //else if (TextListItem.IsSelected)
+        //    //    CurrentFrame = "TextFrame";
+        //    //else if (ImageListItem.IsSelected)
+        //    //    CurrentFrame = "ImageFrame";
+        //}
 
         private void TopPanelListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

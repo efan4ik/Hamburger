@@ -39,7 +39,7 @@ namespace Hamburger.UI.Views
 
         private void NorthButton_Click(object sender, RoutedEventArgs e)
         {
-            RooSceneView.SetViewAsync(new Camera(RooSceneView.Camera.Location, 0, 0));
+            RootSceneView.SetViewAsync(new Camera(RootSceneView.Camera.Location, 0, 0));
         }
     }
 }
