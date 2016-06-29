@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml.Input;
 
 namespace Hamburger.UI.Models.GraphicHelpers
 {
@@ -22,6 +23,7 @@ namespace Hamburger.UI.Models.GraphicHelpers
     /// </remarks>
     public class SceneEditHelper
     {
+        #region DataMembers
         private static CancellationTokenSource _drawTaskTokenSource;
 
         #region Default draw symbols
@@ -59,7 +61,8 @@ namespace Hamburger.UI.Models.GraphicHelpers
         /// <summary>
         /// Gets the value indicating whether there is a draw or edit session ongoing.
         /// </summary>
-        public static bool IsActive { get; private set; }
+        public static bool IsActive { get; private set; } 
+        #endregion
 
         #region Create geometries
 
@@ -71,7 +74,7 @@ namespace Hamburger.UI.Models.GraphicHelpers
         /// will be thrown. The task is cancelled if <see cref="Cancel"/> method or if any other draw or edit method is called.
         /// </exception>
         /// <returns>Return new <see cref="MapPoint"/> based on the user interactions.</returns>
-        public static async Task<MapPoint> CreatePointAsync(SceneView sceneView)
+        public static async Task<Geometry> CreatePointAsync(SceneView sceneView)
         {
             Initialize();
             var geometry = await SceneDrawHelper.DrawPointAsync(sceneView, _drawTaskTokenSource.Token);
@@ -87,7 +90,7 @@ namespace Hamburger.UI.Models.GraphicHelpers
         /// will be thrown. The task is cancelled if <see cref="Cancel"/> method or if any other draw or edit method is called.
         /// </exception>
         /// <returns>Return new <see cref="Polyline"/> based on the user interactions.</returns>
-        public static async Task<Polyline> CreatePolylineAsync(SceneView sceneView)
+        public static async Task<Geometry> CreatePolylineAsync(SceneView sceneView)
         {
             Initialize();
             var geometry = await SceneDrawHelper.DrawPolylineAsync(sceneView, _drawTaskTokenSource.Token);
@@ -120,7 +123,7 @@ namespace Hamburger.UI.Models.GraphicHelpers
         /// will be thrown. The task is cancelled if <see cref="Cancel"/> method or if any other draw or edit method is called.
         /// </exception>
         /// <returns>Return new <see cref="Polygon"/> based on the user interactions.</returns>
-        public static async Task<Polygon> CreatePolygonAsync(SceneView sceneView)
+        public static async Task<Geometry> CreatePolygonAsync(SceneView sceneView)
         {
             Initialize();
             var geometry = await SceneDrawHelper.DrawPolygonAsync(sceneView, _drawTaskTokenSource.Token);
@@ -129,6 +132,81 @@ namespace Hamburger.UI.Models.GraphicHelpers
         }
 
         #endregion // Create geometries 
+
+        #region Erase geometries
+
+        public static async Task EraseGeometrys(SceneView sceneView)
+        {
+            Initialize();
+            await Task.Run(async () =>
+            {
+                object _lockObject = new object();
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+
+                    bool isErasing = false;
+                    PointerEventHandler onPointerPressed = ((s, e) =>
+                {
+                    isErasing = true;
+                    sceneView.ManipulationMode = ManipulationModes.None;
+                    eraseInPoint(sceneView, e, isErasing);
+                });
+                    sceneView.PointerPressed += onPointerPressed;
+                    PointerEventHandler onPointerMoved = ((s, e) =>
+                {
+                    eraseInPoint(sceneView, e, isErasing);
+                });
+                    sceneView.PointerMoved += onPointerMoved;
+                    PointerEventHandler onPointerReleased = ((s, e) =>
+                {
+                    _drawTaskTokenSource.Cancel();
+                });
+                    sceneView.PointerReleased += onPointerReleased;
+                    _drawTaskTokenSource.Token.Register(() =>
+                {
+                    isErasing = false;
+                    sceneView.ManipulationMode = Windows.UI.Xaml.Input.ManipulationModes.All;
+                    sceneView.PointerPressed -= onPointerPressed;
+                    sceneView.PointerMoved -= onPointerMoved;
+                    sceneView.PointerReleased -= onPointerReleased;
+                    Monitor.Exit(_lockObject);
+                });
+                    Monitor.Enter(_lockObject);
+
+                });
+
+                Monitor.Enter(_lockObject);
+                Monitor.Exit(_lockObject);
+            }, _drawTaskTokenSource.Token);
+        }
+
+        private static void eraseInPoint(SceneView sceneView, PointerRoutedEventArgs e, bool isErasing)
+        {
+            if (isErasing && e != null)
+            {
+                var position = sceneView.ScreenToLocation(e.GetCurrentPoint(sceneView).Position);
+                if (position != null)
+                {
+                    bool found = false;
+                    for (int i = 0; i < sceneView.GraphicsOverlays.Count && !found; i++)
+                    {
+                        var overlay = sceneView.GraphicsOverlays.ElementAt(i);
+                        var graphic = overlay.HitTestAsync(sceneView, e.GetCurrentPoint(sceneView).RawPosition).Result;
+                        if (graphic != null)
+                        {
+                            var graphicInOverlay = overlay.Graphics.Where((g) => g.Geometry.IsEqual(graphic.Geometry));
+                            if (graphicInOverlay.Count() > 0)
+                            {
+                                overlay.Graphics.Remove(graphicInOverlay.First());
+                                found = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         #region Edit geometries
 

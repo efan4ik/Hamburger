@@ -48,13 +48,11 @@ namespace Hamburger.UI.Views
             {
                 listItem.IsSelected = false;
                 list.SelectionMode = ListViewSelectionMode.None;
-                (e.ClickedItem as DrawingOption).OnCancel.Invoke();
             }
             else
             {
                 list.SelectionMode = ListViewSelectionMode.Single;
                 listItem.IsSelected = true;
-                (e.ClickedItem as DrawingOption).OnCheck.Invoke();
             }
         }
     }

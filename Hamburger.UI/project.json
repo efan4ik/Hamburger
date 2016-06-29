@@ -1,8 +1,7 @@
 ﻿{
   "dependencies": {
     "Esri.ArcGISRuntime": "10.2.7.1234",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
-    "Prism.Core": "6.1.0"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
   },
   "frameworks": {
     "uap10.0": {}

@@ -3,6 +3,7 @@ using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Layers;
 using Esri.ArcGISRuntime.Symbology;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,6 +87,10 @@ namespace Hamburger.UI.Models.GraphicHelpers
             {
                 result = await tcs.Task;
             }
+            catch (TaskCanceledException e)
+            {
+                throw new DrawCanceledExeption("Draw operation was canceled", e, pointGraphic.Geometry);
+            }
             finally
             {
                 cleanup();
@@ -133,6 +138,10 @@ namespace Hamburger.UI.Models.GraphicHelpers
             try
             {
                 result = await tcs.Task;
+            }
+            catch(TaskCanceledException e)
+            {
+                throw new DrawCanceledExeption("Draw operation was canceled", e, polylineBuilder.ToGeometry());
             }
             finally
             {
@@ -189,6 +198,10 @@ namespace Hamburger.UI.Models.GraphicHelpers
             try
             {
                 result = await tcs.Task;
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new DrawCanceledExeption("Draw operation was canceled", e, polygonBuilder.ToGeometry());
             }
             finally
             {
@@ -248,6 +261,10 @@ namespace Hamburger.UI.Models.GraphicHelpers
             try
             {
                 result = await tcs.Task;
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new DrawCanceledExeption("Draw operation was canceled", e, polylineBuilder.ToGeometry());
             }
             finally
             {

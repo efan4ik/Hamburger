@@ -15,19 +15,19 @@ using System.Windows.Input;
 using Esri.ArcGISRuntime.Layers;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
-using Prism.Mvvm;
-using Prism.Commands;
 using Hamburger.UI.Models;
 
 namespace Hamburger.UI.ViewModels
 {
     public class PaintToolBoxViewModel : BindableBase
     {
+        #region DataMembers
         private SceneView _view;
         public SceneView View
         {
             get { return _view; }
-            set {
+            set
+            {
                 _view = value;
                 initiolizeMap(value);
             }
@@ -36,8 +36,7 @@ namespace Hamburger.UI.ViewModels
         private const double DEFAULT_WIDTH = 3;
         private const byte DEFAULT_AREA_ALPHA = 150;
         private static GraphicSelection _selection;
-        private GraphicsOverlay _polygonsOverlay;
-        private GraphicsOverlay _polylinesOverlay;
+        private GraphicsOverlay _drawingOverlay;
         private Visibility _colorPickerVisability;
         public Visibility ColorPikerVisability
         {
@@ -50,39 +49,148 @@ namespace Hamburger.UI.ViewModels
                 SetProperty(ref _colorPickerVisability, value);
             }
         }
-        private SolidColorBrush SelectedColor { get; set; } = new SolidColorBrush(Colors.Yellow);
+        private SolidColorBrush _selectedColor;
+
+        public SolidColorBrush SelectedColor
+        {
+            get { return _selectedColor; }
+            set {
+                _selectedColor = value;
+                SetProperty(ref _selectedColor, value);
+            }
+        }
         public ICommand ColorPickerButton_Click { get; set; }
         public List<DrawingOption> DrawingOptions { get; set; }
+        private object _selectedDrawingOption;
+        public object SelectedDrawingOption
+        {
+            get { return _selectedDrawingOption; }
+            set
+            {
+                _selectedDrawingOption = value;
+                SetProperty(ref _selectedDrawingOption, value);
+                onDrawingOptionSelectionChange(value);
+            }
+        }
+        private DrawingOption _eraseDrawingOption { get; set; }
+        public List<ColorInfo> ColorPickerColors { get; set; }
+        #endregion
+
+        #region Ctor
 
         public PaintToolBoxViewModel()
         {
             ColorPickerButton_Click = new DelegateCommand(() => OnColorPickButtonClick());
             initiolizeDrawingOptions();
+            initiolizeColors();
+            SelectedColor = new SolidColorBrush(Colors.Yellow);
+        }
+
+        #endregion
+
+        #region Initiolize
+
+        private void initiolizeColors()
+        {
+            ColorPickerColors = new List<ColorInfo>
+            {
+                new ColorInfo("Red", Colors.Red),
+                new ColorInfo("Blue", Colors.Blue),
+                new ColorInfo("Yellow", Colors.Yellow),
+                new ColorInfo("Green", Colors.Green),
+                new ColorInfo("Orange", Colors.Orange),
+                new ColorInfo("Purple", Colors.Purple)
+            };
         }
 
         private void initiolizeDrawingOptions()
         {
+            _eraseDrawingOption = new DrawingOption("EraseButton", "\xE75C", OnEraseButtonClick);
             DrawingOptions = new List<DrawingOption>
             {
-                new DrawingOption("FreeHandButton","\xE70F",OnFreehandButtonClick,SceneEditHelper.Cancel),
-                new DrawingOption("LineButton","\xE738",OnLineButtonClick,SceneEditHelper.Cancel),
-                new DrawingOption("AreaButton","\xE932",OnAreaButtonClick,SceneEditHelper.Cancel),
-                new DrawingOption("EditButton","\xE8D3",OnEditButtonClick,SceneEditHelper.Cancel)
+                new DrawingOption("FreeHandButton","\xE70F",OnFreehandButtonClick),
+                new DrawingOption("LineButton","\xE738",OnLineButtonClick),
+                new DrawingOption("AreaButton","\xE932",OnAreaButtonClick),
+                new DrawingOption("EditButton","\xE7C9",OnEditButtonClick),
+                _eraseDrawingOption
             };
         }
 
         private void initiolizeMap(SceneView View)
         {
-            _polygonsOverlay = new GraphicsOverlay();
-            _polygonsOverlay.ID = "PolygonGraphicsOverlay";
-            View.GraphicsOverlays.Add(_polygonsOverlay);
-            _polylinesOverlay = new GraphicsOverlay();
-            _polylinesOverlay.ID = "PolylineGraphicsOverlay";
-            View.GraphicsOverlays.Add(_polylinesOverlay);
-            _polygonsOverlay.Renderer = new SimpleRenderer() { Symbol = new SimpleFillSymbol() { Color = Colors.Aqua } };
+            _drawingOverlay = new GraphicsOverlay();
+            _drawingOverlay.ID = "PolygonGraphicsOverlay";
+            View.GraphicsOverlays.Add(_drawingOverlay);
+            _drawingOverlay.Renderer = new SimpleRenderer() { Symbol = new SimpleFillSymbol() { Color = Colors.Aqua } };
             View.SceneViewTapped += Map_Tapped;
         }
+        #endregion
 
+        #region Drawing
+
+        private void onDrawingOptionSelectionChange(object value)
+        {
+            if (value != null)
+            {
+                (value as DrawingOption).OnCheck();
+            }
+            else
+            {
+                SceneEditHelper.Cancel();
+            }
+        }
+
+        private void OnLineButtonClick()
+        {
+            ExecuteDrawing(SceneEditHelper.CreatePolylineAsync);
+        }
+
+        private void OnFreehandButtonClick()
+        {
+            ExecuteDrawing(SceneEditHelper.CreateFreeHandAsync);
+        }
+
+        private void OnAreaButtonClick()
+        {
+            Esri.ArcGISRuntime.Symbology.Symbol drawingSymbol = new SimpleFillSymbol() { Color = getColorWithAlpha(SelectedColor.Color, DEFAULT_AREA_ALPHA), Outline = new SimpleLineSymbol() { Color = DEFAULT_POLYGON_BORFDER_COLOR } };
+            ExecuteDrawing(SceneEditHelper.CreatePolygonAsync, drawingSymbol);
+        }
+
+        private void ExecuteDrawing(Func<SceneView, Task<Esri.ArcGISRuntime.Geometry.Geometry>> createGeometryAsync)
+        {
+            ExecuteDrawing(createGeometryAsync, new SimpleLineSymbol() { Color = SelectedColor.Color, Width = DEFAULT_WIDTH });
+        }
+
+        private async void ExecuteDrawing(Func<SceneView, Task<Esri.ArcGISRuntime.Geometry.Geometry>> createGeometryAsync, Esri.ArcGISRuntime.Symbology.Symbol symbol)
+        {
+            Esri.ArcGISRuntime.Geometry.Geometry DrawedGeometry = null;
+            bool toContinueDrawing = true;
+            while (toContinueDrawing)
+            {
+                try
+                {
+                    DrawedGeometry = await createGeometryAsync(View);
+                }
+                catch (DrawCanceledExeption e)
+                {
+                    DrawedGeometry = e.DrawedGepmetry;
+                    toContinueDrawing = false;
+                }
+                finally
+                {
+                    if (DrawedGeometry != null && !DrawedGeometry.IsEmpty)
+                    {
+                        var graphic = new Graphic(DrawedGeometry);
+                        graphic.Symbol = symbol;
+                        _drawingOverlay.Graphics.Add(graphic);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Editing
         private async void Map_Tapped(object sender, MapViewInputEventArgs e)
         {
             // If draw or edit is active, return
@@ -165,6 +273,19 @@ namespace Hamburger.UI.ViewModels
                 _selection.SetVisible(); // Show selected graphic from the UI
             }
         }
+        #endregion
+
+        #region Erasing
+
+        private async void OnEraseButtonClick()
+        {
+            while((SelectedDrawingOption as DrawingOption) == _eraseDrawingOption)
+            {
+                await SceneEditHelper.EraseGeometrys(View);
+            }
+        }
+
+        #endregion
 
         private void OnColorPickButtonClick()
         {
@@ -177,33 +298,11 @@ namespace Hamburger.UI.ViewModels
             ColorPikerVisability = Visibility.Collapsed;
         }
 
-        private async void OnLineButtonClick()
-        {
-            var geometry = await SceneEditHelper.CreatePolylineAsync(View);
-            var graphic = new Graphic(geometry);
-            graphic.Symbol = new SimpleLineSymbol() { Color = SelectedColor.Color, Width = DEFAULT_WIDTH };
-            _polylinesOverlay.Graphics.Add(graphic);
-        }
-
-        private async void OnFreehandButtonClick()
-        {
-            var geometry = await SceneEditHelper.CreateFreeHandAsync(View);
-            var graphic = new Graphic(geometry);
-            graphic.Symbol = new SimpleLineSymbol() { Color = SelectedColor.Color, Width = DEFAULT_WIDTH };
-            _polylinesOverlay.Graphics.Add(graphic);
-        }
-
-        private async void OnAreaButtonClick()
-        {
-            var geometry = await SceneEditHelper.CreatePolygonAsync(View);
-            var graphic = new Graphic(geometry);
-            graphic.Symbol = new SimpleFillSymbol() { Color = getColorWithAlpha(SelectedColor.Color, DEFAULT_AREA_ALPHA), Outline = new SimpleLineSymbol() { Color = DEFAULT_POLYGON_BORFDER_COLOR } };
-            _polygonsOverlay.Graphics.Add(graphic);
-        }
-
+        #region InternalMetods
         private Color getColorWithAlpha(Color color, byte alpha)
         {
             return Color.FromArgb(alpha, color.R, color.G, color.B);
-        }
+        } 
+        #endregion
     }
 }

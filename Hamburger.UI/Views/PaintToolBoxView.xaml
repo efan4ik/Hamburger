@@ -10,12 +10,17 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <models:ObjectSolidColorBrushConvertor x:Key="ObjectBushConvertor"/>
+        <models:SolidBrushToBrushConvertor x:Key="BrushConvertor"/>
         <DataTemplate x:Key="DrawingOptionTemplate" x:DataType="models:DrawingOption">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Border  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <TextBlock Name="{x:Bind Name}" Text="{x:Bind Icon}" FontSize="36" FontFamily="Segoe MDL2 Assets"/>
                 </Border>
             </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColorsTemplate" x:DataType="models:ColorInfo">
+            <ComboBoxItem Background="{x:Bind ColorBrush}" Content="{x:Bind Color}" FontSize="36" Foreground="White"/>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -33,9 +38,24 @@
 
 
         <!--<local:ColorPickerView x:Name="ColorPicker" Visibility="{Binding ColorPikerVisability, Mode=TwoWay}"/>
-        <Button Name ="ColorPickButton" Command="{Binding ColorPickerButton_Click}" RelativePanel.Below="ColorPicker" RelativePanel.AlignHorizontalCenterWith="ColorPicker" Background="White" Content="&#xE1C7;"  FontFamily="Segoe MDL2 Assets" FontSize="36" Foreground="Yellow"/>-->
-        <Border Name ="Border" Height="50" Width="4" BorderBrush="Black" BorderThickness="0,0,10,0"/>
-        <ListView Name="myList" ItemClick="myList_ItemClick" ItemTemplate="{StaticResource DrawingOptionTemplate}" ItemsSource="{x:Bind VM.DrawingOptions}" IsItemClickEnabled="True" RelativePanel.RightOf="Border">
+        <Button Name ="ColorPickButton" Command="{Binding ColorPickerButton_Click}" RelativePanel.Below="ColorPicker" R elativePanel.AlignHorizontalCenterWith="ColorPicker" Background="White" Content="&#xE1C7;"  FontFamily="Segoe MDL2 Assets" FontSize="36" Foreground="Yellow"/>-->
+
+        <ComboBox Name="ColorPicker"
+                  ItemTemplate="{StaticResource ColorsTemplate}"
+                  ItemsSource="{x:Bind VM.ColorPickerColors}"
+                  Background="{x:Bind VM.SelectedColor,Mode=TwoWay, Converter={StaticResource BrushConvertor}}"
+                  SelectedItem="{x:Bind VM.SelectedColor, Mode=TwoWay,Converter={StaticResource ObjectBushConvertor}}"
+                  />
+
+
+        <Border Name ="Border" Height="50" Width="4" BorderBrush="Black" BorderThickness="0,0,10,0" RelativePanel.RightOf="ColorPicker"/>
+        <ListView Name="myList" 
+                  ItemClick="myList_ItemClick"
+                  ItemTemplate="{StaticResource DrawingOptionTemplate}"
+                  ItemsSource="{x:Bind VM.DrawingOptions}" 
+                  IsItemClickEnabled="True" 
+                  RelativePanel.RightOf="Border"
+                  SelectedItem="{x:Bind VM.SelectedDrawingOption,Mode=TwoWay}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel Orientation="Horizontal"/>

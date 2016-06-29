@@ -98,10 +98,14 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ColorInfo.cs" />
     <Compile Include="Models\DrawingOption.cs" />
+    <Compile Include="Models\GraphicHelpers\DrawCanceledExeption.cs" />
     <Compile Include="Models\GraphicHelpers\GraphicSelection.cs" />
     <Compile Include="Models\GraphicHelpers\SceneDrawHelper.cs" />
     <Compile Include="Models\GraphicHelpers\SceneEditHelper.cs" />
+    <Compile Include="Models\ObjectSolidColorBrushConvertor.cs" />
+    <Compile Include="Models\SolidBrushToBrushConvertor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PaintToolBoxViewModel.cs" />
     <Compile Include="Views\ColorPickerView.xaml.cs">
