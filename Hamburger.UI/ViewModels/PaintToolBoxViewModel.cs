@@ -16,10 +16,12 @@ using Esri.ArcGISRuntime.Layers;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
 using Hamburger.UI.Models;
+using System.ComponentModel;
+using GalaSoft.MvvmLight.Command;
 
 namespace Hamburger.UI.ViewModels
 {
-    public class PaintToolBoxViewModel : BindableBase
+    public class PaintToolBoxViewModel : INotifyPropertyChanged
     {
         #region DataMembers
         private SceneView _view;
@@ -46,7 +48,8 @@ namespace Hamburger.UI.ViewModels
             }
             set
             {
-                SetProperty(ref _colorPickerVisability, value);
+                _colorPickerVisability = value;
+                RaisePropertyChanged("_colorPickerVisability");
             }
         }
         private SolidColorBrush _selectedColor;
@@ -56,22 +59,32 @@ namespace Hamburger.UI.ViewModels
             get { return _selectedColor; }
             set {
                 _selectedColor = value;
-                SetProperty(ref _selectedColor, value);
+                RaisePropertyChanged("_selectedColor");
             }
         }
-        public ICommand ColorPickerButton_Click { get; set; }
+
+        private void RaisePropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+
         public List<DrawingOption> DrawingOptions { get; set; }
         private object _selectedDrawingOption;
+
         public object SelectedDrawingOption
         {
             get { return _selectedDrawingOption; }
             set
             {
                 _selectedDrawingOption = value;
-                SetProperty(ref _selectedDrawingOption, value);
+                RaisePropertyChanged("_selectedDrawingOption");
                 onDrawingOptionSelectionChange(value);
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private DrawingOption _eraseDrawingOption { get; set; }
         public List<ColorInfo> ColorPickerColors { get; set; }
         #endregion
@@ -80,7 +93,6 @@ namespace Hamburger.UI.ViewModels
 
         public PaintToolBoxViewModel()
         {
-            ColorPickerButton_Click = new DelegateCommand(() => OnColorPickButtonClick());
             initiolizeDrawingOptions();
             initiolizeColors();
             SelectedColor = new SolidColorBrush(Colors.Yellow);
@@ -287,16 +299,6 @@ namespace Hamburger.UI.ViewModels
 
         #endregion
 
-        private void OnColorPickButtonClick()
-        {
-            ColorPikerVisability = ColorPikerVisability == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private void OnColorChanged(object sender, SolidColorBrush e)
-        {
-            SelectedColor = e;
-            ColorPikerVisability = Visibility.Collapsed;
-        }
 
         #region InternalMetods
         private Color getColorWithAlpha(Color color, byte alpha)
