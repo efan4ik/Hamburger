@@ -26,7 +26,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <esri:SceneView x:Name="RooSceneView"
 					  LayerLoaded="OnRootSceneViewLayerLoaded">
-            <esri:Scene x:Name="element1">
+            <esri:Scene>
                 <esri:Scene.Surface>
                     <esri:ElevationSourceCollection>
                         <esri:ServiceElevationSource ServiceUri="http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"/>
@@ -41,7 +41,7 @@
                            Foreground="White" FontSize="16" Margin="26 0 0 44"
                            Visibility="{Binding IsScalebarVisible, Mode=OneWay, Converter={StaticResource BoolToVisibleConverter}}"/>
         <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <views:PaintToolBox View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton" Visibility="{Binding IsToolboxVisible, Mode=OneWay, Converter={StaticResource BoolToVisibleConverter}}"/>
+            <views:PaintToolBoxView View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton" Visibility="{Binding IsToolboxVisible, Mode=OneWay, Converter={StaticResource BoolToVisibleConverter}}"/>
             <Button Name="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
         </RelativePanel>
     </Grid>

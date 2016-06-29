@@ -117,12 +117,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\TextViewModel.cs" />
-    <Compile Include="Views\ColorPicker.xaml.cs">
-      <DependentUpon>ColorPicker.xaml</DependentUpon>
     <Compile Include="ViewModels\PaintToolBoxViewModel.cs" />
-    <Compile Include="Views\ColorPickerView.xaml.cs">
-      <DependentUpon>ColorPickerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
@@ -130,8 +125,6 @@
     <Compile Include="Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PaintToolBox.xaml.cs">
-      <DependentUpon>PaintToolBox.xaml</DependentUpon>
     <Compile Include="Views\PaintToolBoxView.xaml.cs">
       <DependentUpon>PaintToolBoxView.xaml</DependentUpon>
     </Compile>
@@ -164,10 +157,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ColorPickerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\ImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,9 +165,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PaintToolBox.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\PaintToolBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TextView.xaml">
       <SubType>Designer</SubType>
