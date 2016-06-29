@@ -11,23 +11,204 @@
 	xmlns:symb="using:Esri.ArcGISRuntime.Symbology"
 	xmlns:geom="using:Esri.ArcGISRuntime.Geometry"
     xmlns:views="using:Hamburger.UI.Views"
-    
+    xmlns:vm="using:Hamburger.UI.ViewModels"
+    xmlns:models="using:Hamburger.UI.Models"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <vm:MainPageViewModel/>
+    </Page.DataContext>
+    
+    <Page.Resources>
+        <Style TargetType="Frame" x:Key="FrameFitToParent">
+            <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
+            <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
+            <Setter Property="RelativePanel.AlignBottomWithPanel" Value="True"/>
+            <Setter Property="RelativePanel.AlignTopWithPanel" Value="True"/>
+        </Style>
 
-        <esri:SceneView x:Name="RooSceneView"
-					  LayerLoaded="OnRootSceneViewLayerLoaded">
-            <esri:Scene>
-                <esri:Scene.Surface>
-                    <esri:ElevationSourceCollection>
-                        <esri:ServiceElevationSource ServiceUri="http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"/>
-                    </esri:ElevationSourceCollection>
-                </esri:Scene.Surface>
-                <layers:ArcGISTiledMapServiceLayer ID="AGOLayer"
-                            ServiceUri="http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer" />
-            </esri:Scene>
-        </esri:SceneView>
-        <views:PaintToolBoxView View="{Binding ElementName=RooSceneView}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        <Style TargetType="ListBox" x:Key="TopPanelListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <RelativePanel>
+            <Button Name="LeftHamburgerButton" 
+                    RelativePanel.AlignLeftWithPanel="True"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="32"
+                    Content="&#xE713;"
+                    Click="LeftHamburgerButton_Click"/>
+            <ListBox Name="TopPanelListBox" 
+                      RelativePanel.AlignHorizontalCenterWithPanel="True"
+                      SelectionChanged="TopPanelListBox_SelectionChanged"  
+                      VerticalAlignment="Center"
+                      FlowDirection="RightToLeft"
+                      SelectionMode="Single"
+                      Height="44">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBoxItem Name="MapListItem" Content="מפה" Margin="2 0 2 0" IsSelected="True"/>
+                <ListBoxItem Name="TextListItem" Content="טקסט" Margin="2 0 2 0"/>
+                <ListBoxItem Name="ImageListItem" Content="תמונה" Margin="2 0 2 0"/>
+            </ListBox>
+            <!--<ToggleButton Name="MapButton"
+                    Content="מפה"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="MapView"
+                    RelativePanel.RightOf="TextButton"
+                    IsChecked="True"/>
+            <ToggleButton Name="TextButton"
+                    Content="טקסט"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="TextView"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            <ToggleButton Name="ImageButton"
+                    Content="תמונה"
+                    Style="{StaticResource TopPanelButtonStyle}"
+                    Click="ButtonClick"
+                    CommandParameter="ImageView"
+                    RelativePanel.LeftOf="TextButton"/>-->
+            <Button Name="RightHamburgerButton" 
+                    RelativePanel.AlignRightWithPanel="True"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="32"
+                    Content="&#xE700;"
+                    Click="RightHamburgerButton_Click"/>
+        </RelativePanel>
+
+        <SplitView Name="LeftPanel" 
+        IsPaneOpen="False" 
+        DisplayMode="Inline"
+        OpenPaneLength="200" Grid.Row="1">
+            <SplitView.Pane>
+                <StackPanel FlowDirection="RightToLeft">
+                    <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">הגדרות</TextBlock>
+                    <StackPanel  Margin="8,20,8,3">
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8">משהו</TextBlock>
+                        <ToggleButton x:Name="DrawingToggle" FontSize="20" Margin="8,8,8,8" IsChecked="{Binding IsDrawingOn, Mode=TwoWay}">ציור על המפה</ToggleButton>
+                        <Button  FontSize="20" Margin="8,8,8,8" Command="{Binding JumpToPointCommand}">קפוץ לנ.צ</Button>
+                        <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 3</ToggleButton>
+                    </StackPanel>
+
+                    <StackPanel Margin="8,20,8,3">
+                        <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8"> משהו אחר</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleSwitch MinWidth="20" IsOn="{Binding IsScalebarVisible, Mode=TwoWay}" OnContent="" OffContent=""/>
+                            <TextBlock FontSize="20" Text="הצג קנה מידה"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 2</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleSwitch MinWidth="20" OnContent="" OffContent="" ></ToggleSwitch>
+                            <TextBlock  FontSize="20" >הגדרה 3</TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock  FontSize="20" Margin="8,8,8,8">הגדרה אחרת:</TextBlock>
+                            <Slider Margin="8,8,8,8"></Slider>
+
+                        </StackPanel>
+                    </StackPanel>
+
+
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <SplitView
+                 Name="RightPanel" 
+                 IsHoldingEnabled="True"
+                 IsPaneOpen="False" 
+                 DisplayMode="Inline" 
+                 OpenPaneLength="200" Grid.Row="1"
+                 PanePlacement="Right">
+                    <SplitView.Pane>
+                        <StackPanel FlowDirection="RightToLeft" >
+                            <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים</TextBlock>
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,10,0,0" Height="300">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Restraunts}" Margin="8,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                                    <Button Width="120" Height="40" FontSize="20" Content="{Binding Name}"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets" FontSize="26" Content="&#xECCD;"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">דברים אחרים</TextBlock>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0,10,0,0" Height="300">
+                                <StackPanel>
+
+                                    <ItemsControl ItemsSource="{Binding Bars}" Margin="8,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate >
+                                                <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                                    <Button Width="120" Height="40" FontSize="20"  Content="{Binding Name}"/>
+                                                    <Button Height="40" FontFamily="Segoe MDL2 Assets"
+                                                 FontSize="26" Content="&#xECCD;"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </StackPanel>
+                        <!--<ListView>
+                            <ListViewItem Name="FirstListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
+                                <RelativePanel>
+                                    <TextBlock Name="FirstIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE128;" RelativePanel.AlignRightWithPanel="True"/>
+                                    <TextBlock FontSize="20" Text="מפה" Margin="0 0 20 0" RelativePanel.LeftOf="FirstIcon"/>
+                                </RelativePanel>
+                            </ListViewItem>
+                            <ListViewItem Name="SecondListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
+                                <RelativePanel HorizontalAlignment="Stretch">
+                                    <TextBlock Name="SecondIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE1C8;" RelativePanel.AlignRightWithPanel="True"/>
+                                    <TextBlock FontSize="20" Text="טקסט" Margin="0 0 20 0" RelativePanel.LeftOf="SecondIcon"/>
+                                </RelativePanel>
+                            </ListViewItem>
+                            <ListViewItem Name="ThirdListItem" Margin="0 4 0 4" HorizontalContentAlignment="Stretch">
+                                <RelativePanel>
+                                    <TextBlock Name="ThirdIcon" FontSize="30" FontFamily="Segoe MDL2 Assets" Text="&#xE722;" RelativePanel.AlignRightWithPanel="True"/>
+                                    <TextBlock FontSize="20" Text="תמונה" Margin="0 0 20 0" RelativePanel.LeftOf="ThirdIcon"/>
+                                </RelativePanel>
+                            </ListViewItem>
+                        </ListView>-->
+                    </SplitView.Pane>
+                    <SplitView.Content>
+                        <Frame Name="MainFrame"/>
+                    </SplitView.Content>
+
+                </SplitView>
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>

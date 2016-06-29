@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Esri.ArcGISRuntime.Controls;
+using Hamburger.UI.Views;
+using Hamburger.UI.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -26,15 +28,99 @@ namespace Hamburger.UI
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            DataContext = this;
+            InitializeComponent();
+            _views = new Dictionary<string, Page>()
+            {
+                 {"MapView", new Views.MapView()},
+                {"TextView", new TextView()},
+                {"ImageView", new ImageView()}
+            };
+            Navigate("MapView");
         }
 
-        private void OnRootSceneViewLayerLoaded(object sender, LayerLoadedEventArgs e)
+
+        
+              
+
+        #region properties
+        //private Map _map;
+
+        ///// <summary>
+        ///// Gets the Map rendered in the MapView
+        ///// </summary>
+        //public Map Map
+        //{
+        //    get
+        //    {
+        //        if (_map == null)
+        //        {
+        //            _map = new Map(Basemap.CreateTopographic());
+        //        }
+        //        return _map;
+        //    }
+        //}
+
+        #endregion
+
+        private Dictionary<string, Page> _views;
+        public Dictionary<string, Page> Views
         {
-            if (e.LoadError == null)
+            get { return _views; }
+            set
+            {
+                _views = value;
+
+            }
+        }
+        
+
+        private void Navigate(string viewName)
+        {
+            if (Views.ContainsKey(viewName))
+            {
+                MainFrame.Content = Views[viewName];
+            }
+        }
+
+        private void ButtonClick(object sender, RoutedEventArgs e)
+        {
+            var viewName = (e.OriginalSource as ToggleButton).CommandParameter.ToString();
+            Navigate(viewName);
+        }
+
+        private void LeftHamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            LeftPanel.IsPaneOpen = !LeftPanel.IsPaneOpen;
+        }
+
+        private void RightHamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            RightPanel.IsPaneOpen = !RightPanel.IsPaneOpen;
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if (MapListItem.IsSelected)
+            //    CurrentFrame = "MapFrame";
+            //else if (TextListItem.IsSelected)
+            //    CurrentFrame = "TextFrame";
+            //else if (ImageListItem.IsSelected)
+            //    CurrentFrame = "ImageFrame";
+        }
+
+        private void TopPanelListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Views == null)
                 return;
 
-            Debug.WriteLine($"Error while loading layer : {0} - {1}", e.Layer.ID, e.LoadError.Message);
+            if (MapListItem.IsSelected)
+                Navigate("MapView");
+            else if (TextListItem.IsSelected)
+                Navigate("TextView");
+            else if (ImageListItem.IsSelected)
+                Navigate("ImageView");
         }
     }
 }
+
