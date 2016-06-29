@@ -115,6 +115,7 @@
     <Compile Include="Views\PaintToolBox.xaml.cs">
       <DependentUpon>PaintToolBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\pdfDocument.cs" />
     <Compile Include="Views\PdfReader.xaml.cs">
       <DependentUpon>PdfReader.xaml</DependentUpon>
     </Compile>

@@ -8,6 +8,45 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--<ScrollViewer ZoomMode="Enabled" Background="DarkGray" Grid.Column="1">
+                                    <ItemsControl ItemsSource="{Binding PdfPages, ElementName=root}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding}" Margin="0 2" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>-->
+        <ScrollViewer Margin="12,20,12,12">
+            <StackPanel>
+                <!--<TextBlock Text="Description:" />
+                                        <TextBlock TextWrapping="Wrap">
+                    Loading and rendering a PDF document
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                            <Button x:Name="LoadButton" Content="Load document" Click="{x:Bind LoadDocument}" Margin="5,0"/>
+                                            <PasswordBox x:Name="PasswordBox" Width="200" PlaceholderText="Optional password"/>
+                                        </StackPanel>-->
 
+                <StackPanel x:Name="RenderingPanel" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock VerticalAlignment="center">View page</TextBlock>
+                        <TextBox x:Name="PageNumberBox" InputScope="Number" Width="30" Text="{x:Bind pageNumber}" TextAlignment="Right" Margin="5,0,5,0"/>
+                        <TextBlock VerticalAlignment="Center">of <Run x:Name="PageCountText"/>.</TextBlock>
+                    </StackPanel>
+                    <!--<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                                <ComboBox x:Name="Options" SelectedIndex="0">
+                                                    <ComboBoxItem>Actual size</ComboBoxItem>
+                                                    <ComboBoxItem>Half size on beige background</ComboBoxItem>
+                                                    <ComboBoxItem>Crop to center of page</ComboBoxItem>
+                                                </ComboBox>
+                                                <Button Click="{x:Bind ViewPage}" Content="View" Margin="10,0,0,0"/>
+                                            </StackPanel>-->
+
+                    <Image x:Name="Output" Stretch="None" Margin="0,10,0,0"/>
+                </StackPanel>
+                <ProgressRing x:Name="ProgressControl" Height="50" Width="50" IsActive="True" Visibility="Collapsed" Margin="0,10,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
