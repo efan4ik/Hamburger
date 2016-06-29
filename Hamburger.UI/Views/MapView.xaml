@@ -11,8 +11,17 @@
 	xmlns:symb="using:Esri.ArcGISRuntime.Symbology"
 	xmlns:geom="using:Esri.ArcGISRuntime.Geometry"
     xmlns:views="using:Hamburger.UI.Views"
+    xmlns:vm="using:Hamburger.UI.ViewModels"
+    xmlns:converter="using:Hamburger.UI.Converters"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <converter:BooleanToVisibilityConverter x:Key="BoolToVisibleConverter"/>
+    </Page.Resources>
+    
+    <Page.DataContext>
+        <vm:MapViewModel/>
+    </Page.DataContext>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <esri:SceneView x:Name="RooSceneView"
 					  LayerLoaded="OnRootSceneViewLayerLoaded">
@@ -27,8 +36,8 @@
             </esri:Scene>
         </esri:SceneView>
         <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <views:PaintToolBox View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton"/>
-            <Button Name ="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Margin="0 0 20 0"/>
+            <views:PaintToolBox View="{Binding ElementName=RooSceneView}" x:Name="PaintToolBox" RelativePanel.RightOf="NorthButton" Visibility="{Binding IsToolboxVisible, Mode=OneWay, Converter={StaticResource BoolToVisibleConverter}}"/>
+            <Button Name ="NorthButton" Foreground="White" Content="&#xE1D1;" FontFamily="Segoe MDL2 Assets" FontSize="36" Click="NorthButton_Click" Command="{Binding MyCommand}" Margin="0 0 20 0" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
         </RelativePanel>
     </Grid>
 </Page>

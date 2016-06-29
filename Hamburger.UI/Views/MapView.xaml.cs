@@ -1,6 +1,7 @@
 ﻿using Esri.ArcGISRuntime.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -13,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Hamburger.UI.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,7 +29,6 @@ namespace Hamburger.UI.Views
         {
             this.InitializeComponent();
         }
-
 
         private void OnRootSceneViewLayerLoaded(object sender, LayerLoadedEventArgs e)
         {

@@ -26,14 +26,9 @@ namespace Hamburger.UI
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public List<RestrauntModel> Restraunts { get; set; }
-        public List<BarModel> Bars { get; set; }
-
         public MainPage()
         {
             DataContext = this;
-            initializeDummyBars();
-            initializeDummyRestraunts();
             InitializeComponent();
             _views = new Dictionary<string, Page>()
             {
@@ -45,17 +40,7 @@ namespace Hamburger.UI
         }
 
 
-        private void initializeDummyRestraunts()
-        {
-            Restraunts = new List<RestrauntModel>() { new RestrauntModel { Name = "Mex&Co" }, new RestrauntModel { Name = "Segev" }, new RestrauntModel { Name = "Gordos" },
-                                                     new RestrauntModel {Name = "Humangous" } , new RestrauntModel {Name="Blondie" }, new RestrauntModel {Name="MeatNight" } };
-        }
-
-        private void initializeDummyBars()
-        {
-            Bars = new List<BarModel>() { new BarModel { Name = "Renato" }, new BarModel { Name = "Mitch" }, new BarModel { Name = "MikesPlace" }
-                                        , new BarModel { Name = "Idea" }, new BarModel { Name = "Pow Wow" }, new BarModel { Name = "Leo Blooms" } };
-        }
+        
               
 
         #region properties

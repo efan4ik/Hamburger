@@ -11,10 +11,14 @@
 	xmlns:symb="using:Esri.ArcGISRuntime.Symbology"
 	xmlns:geom="using:Esri.ArcGISRuntime.Geometry"
     xmlns:views="using:Hamburger.UI.Views"
-    
+    xmlns:vm="using:Hamburger.UI.ViewModels"
     mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:MainPageViewModel/>
+    </Page.DataContext>
+    
     <Page.Resources>
-        <!--<converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>-->
         <Style TargetType="Frame" x:Key="FrameFitToParent">
             <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
             <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
@@ -55,7 +59,7 @@
                       VerticalAlignment="Center"
                       FlowDirection="RightToLeft"
                       SelectionMode="Single"
-                      Height="{x:Bind LeftHamburgerButton.Height}">
+                      Height="44">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsStackPanel Orientation="Horizontal"/>
@@ -101,7 +105,7 @@
                     <TextBlock FontWeight="Bold" FontSize="24" Margin="8,8,0,0">הגדרות</TextBlock>
                     <StackPanel  Margin="8,20,8,3">
                         <TextBlock FontWeight="Bold" FontSize="20" Margin="8,8,8,8">משהו</TextBlock>
-                        <ToggleButton  FontSize="20" Margin="8,8,8,8" >הגדרה 1</ToggleButton>
+                        <ToggleButton x:Name="DrawingToggle" FontSize="20" Margin="8,8,8,8" IsChecked="{Binding IsDrawingOn, Mode=TwoWay}">ציור על המפה</ToggleButton>
                         <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 2</ToggleButton>
                         <ToggleButton  FontSize="20" Margin="8,8,8,8">הגדרה 3</ToggleButton>
                     </StackPanel>
